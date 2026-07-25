@@ -21,6 +21,7 @@
   <div class="cell"><canvas id="animDebuff" width="288" height="360"></canvas><div>debuff loop</div></div>
   <div class="cell"><canvas id="animCast" width="288" height="360"></canvas><div>cast loop</div></div>
   <div class="cell"><canvas id="animPwr" width="288" height="360"></canvas><div>power through loop</div></div>
+  <div class="cell"><canvas id="animFan" width="288" height="360"></canvas><div>fan out loop</div></div>
 </div>
 <div id="report"></div>
 <div id="err"></div>
@@ -441,6 +442,33 @@ const PWR = [
   buildFrame({o:1, arm:'grip'})
 ];
 const PWR_MS = [200, 160, 240, 90, 200, 220];
+
+// FAN OUT: crouch grip -> gold charge sparks at the hilt -> fast sweep ->
+// slash release with three gold crescents fanning up-left / left / down-left
+// across three widening waves (projectiles march outward and diverge) -> recover
+const FAN_SLASH = buildFrame({o:0, arm:'slash'});
+const FAN = [
+  buildFrame({o:1, arm:'grip'}),
+  overlay(buildFrame({o:1, arm:'grip'}), [[24,14,'X'],[27,12,'W'],[30,15,'W'],[21,13,'W']]),
+  buildFrame({o:0, arm:'sweep'}),
+  overlay(FAN_SLASH, [
+    [20,7,'W'],[21,6,'X'],[22,7,'W'],
+    [25,5,'W'],[26,4,'X'],[27,5,'W'],
+    [30,7,'W'],[31,6,'X'],[32,7,'W']
+  ]),
+  overlay(FAN_SLASH, [
+    [14,3,'W'],[15,2,'X'],[16,3,'W'],[15,4,'P'],
+    [25,2,'W'],[26,1,'X'],[27,2,'W'],[26,3,'P'],
+    [36,3,'W'],[37,2,'X'],[38,3,'W'],[37,4,'P']
+  ]),
+  overlay(FAN_SLASH, [
+    [9,1,'P'],[10,0,'W'],[11,1,'P'],[10,2,'P'],
+    [25,1,'P'],[26,0,'W'],[27,1,'P'],[26,2,'P'],
+    [41,1,'P'],[42,0,'W'],[43,1,'P'],[42,2,'P']
+  ]),
+  buildFrame({o:1, arm:'grip'})
+];
+const FAN_MS = [180, 220, 80, 110, 130, 150, 200];
 // hit: white flash (recoiled) -> recoil hold -> back to idle
 const HIT_RECOIL = buildFrame({o:1, xo:2, headX:1, arm:'guard'});
 const HIT = [flashOf(HIT_RECOIL), HIT_RECOIL, buildFrame({o:0, xo:1, arm:'guard'}), IDLE[0]];
@@ -503,6 +531,8 @@ looper('animDebuff', DEBUFF.map((f,i) => [f, DEBUFF_MS[i]]).concat([[IDLE[0], 50
 looper('animCast', CAST.map((f,i) => [f, CAST_MS[i]]).concat([[IDLE[0], 500]]));
 looper('animPwr', PWR.map((f,i) => [f, PWR_MS[i]]).concat([[IDLE[0], 500]]));
 addStatic(PWR[1], 'p1 windup'); addStatic(PWR[3], 'p3 crash');
+looper('animFan', FAN.map((f,i) => [f, FAN_MS[i]]).concat([[IDLE[0], 500]]));
+addStatic(FAN[1], 'f1 charge'); addStatic(FAN[4], 'f4 wave2');
 
 // self-check
 let cells = ATK.concat(HIT).concat(KO).map(f => f.flat().filter(x => x !== null).length);
