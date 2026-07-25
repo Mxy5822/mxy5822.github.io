@@ -103,4 +103,4 @@ The page carries a green bar div at a known y (render-succeeded marker) and a `w
 - New hero move: add an `arm` mode branch (pre-outline geometry) + post-outline re-posts for thin parts + hilt-visibility rules (`sheathed hilt` condition lists the modes where the sword stays at the hip).
 - New palette-swap enemy: `remapOf` + eye overlay + 2 glitch frames ≈ one sitting.
 - New built boss: start wireframe-fidelity (3 visibly different silhouettes), pick, then detail pass (inset rims/highlights one row inside the outline, gold accents, engraving lines in `g`, corner carves for rounding).
-- Backlog (from the gameplay addendum): hero Power Through / Fan Out / Rollback / Root Cause / Ship It animations; per-boss attack, hit, death frames.
+- Backlog (from the gameplay addendum): hero ability animations ALL DONE 2026-07-25 (Power Through / Fan Out / Rollback / Root Cause / Conviction — see `hero-battle.html`); remaining: per-boss attack, hit, death frames + per-spell impact VFX on the enemy. Conviction's `goldHairOf` remap is the template for persistent form swaps.
