@@ -8,6 +8,9 @@ canvas{image-rendering:pixelated}
 <div class="bar" style="margin-top:12px"></div>
 <div class="row">
   <div class="cell"><canvas id="cFinal" width="384" height="360"></canvas><div>THE CASCADE final</div></div>
+  <div class="cell"><canvas id="kAtk" width="384" height="360"></canvas><div>attack: retry storm</div></div>
+  <div class="cell"><canvas id="kHit" width="384" height="360"></canvas><div>hit: flash + jolt</div></div>
+  <div class="cell"><canvas id="kDie" width="384" height="360"></canvas><div>death: shutdown + collapse</div></div>
   <div class="cell"><canvas id="cf0" width="192" height="180"></canvas><div>f0 head</div></div>
   <div class="cell"><canvas id="cf3" width="192" height="180"></canvas><div>f3 mid</div></div>
   <div class="cell"><canvas id="cf5" width="192" height="180"></canvas><div>f5 tail</div></div>
@@ -515,6 +518,139 @@ function cascadeFinal(f) {
 }
 const CASCADE = [0,1,2,3,4,5].map(cascadeFinal);
 const CASCADE_MS = [300, 170, 170, 170, 170, 170];
+// ---- BATTLE ANIMATIONS: attack / hit / death ----
+// enemy-grid effect helpers (hero overlay() is 60x48 — never reuse it here)
+function eOverlay(grid, pts) {
+  const g2 = grid.map(row => row.slice());
+  for (const [r, c, k] of pts) if (r >= 0 && r < EROWS && c >= 0 && c < ECOLS) g2[r][c] = k;
+  return g2;
+}
+function eFlashOf(grid) { return grid.map(row => row.map(k => k === null ? null : 'L')); }
+function eDitherAll(grid, mod) {
+  return grid.map((row, r) => row.map((v, c) => v === null ? null : ((r + c) % mod === 0 ? v : null)));
+}
+// ATTACK: the loop completes — every core lights X at once, every link hot,
+// ping bursts on all nodes, then a retry storm of bolts rains over the field
+function cascadeOverload(f) {
+  const g = newG();
+  const bobs = NODES.map((_, i) => (f + i) % 2);
+  NODES.forEach(([r, c], i) => {
+    const big = i === 0 ? 1 : 0, rr = r + bobs[i];
+    const r2 = rr + 6 + big*2, c2 = c + 6 + big*2;
+    eR(g, rr, r2, c, c2, 'P');
+    eR(g, rr, rr, c+1, c2-1, 'K');
+    eP(g, rr+1, c+1, 'K');
+    eR(g, r2-1, r2, c+1, c2-1, 'O');
+    eCarve(g, rr, rr, c, c); eCarve(g, rr, rr, c2, c2);
+    eCarve(g, r2, r2, c, c); eCarve(g, r2, r2, c2, c2);
+    eR(g, rr+2+big, rr+3+big, c+2+big, c+3+big, 'X');
+    if (i === 0) { eP(g, rr+3, c+2, 'E'); eP(g, rr+3, c+6, 'E'); }
+  });
+  const out = eOutline(g);
+  for (let i = 0; i < NODES.length-1; i++) {
+    const [r1,c1] = NODES[i], [r2,c2] = NODES[i+1];
+    const cy1 = r1+bobs[i]+4, cx1 = c1+4, cy2 = r2+bobs[i+1]+4, cx2 = c2+4;
+    for (let t = 1; t <= 3; t++) {
+      const rr = Math.round(cy1 + (cy2-cy1)*t/4), cc = Math.round(cx1 + (cx2-cx1)*t/4);
+      eP(out, rr, cc, 'X');
+    }
+  }
+  NODES.forEach(([r, c], i) => {
+    const big = i === 0 ? 1 : 0, rr = r + bobs[i];
+    const r2 = rr + 6 + big*2, c2 = c + 6 + big*2, mid = Math.floor((c+c2)/2), rmid = Math.floor((rr+r2)/2);
+    eP(out, rr-2, mid, 'X'); eP(out, r2+2, mid, 'X');
+    eP(out, rmid, c-2, 'X'); eP(out, rmid, c2+2, 'X');
+  });
+  return out;
+}
+const BOLTS1 = [[1,58,'T'],[2,57,'S'],[15,58,'T'],[16,57,'S'],[20,8,'T'],[21,7,'S'],
+                [3,20,'T'],[4,19,'S'],[45,55,'T'],[46,54,'S'],[50,10,'X'],[51,9,'W'],
+                [28,57,'X'],[29,56,'W'],[33,3,'T'],[34,2,'S']];
+const BOLTS2 = BOLTS1.map(([r,c,k]) => [r+5, c-1, k === 'T' ? 'S' : k === 'X' ? 'W' : 'R']);
+const CAS_ATK = [
+  [CASCADE[4], 150], [CASCADE[5], 150],
+  [cascadeOverload(0), 220],
+  [eFlashOf(cascadeOverload(1)), 90],
+  [eOverlay(cascadeOverload(1), BOLTS1), 190],
+  [eOverlay(cascadeOverload(0), BOLTS2), 180],
+  [CASCADE[0], 320]
+];
+// HIT: white flash, then the chain shudders sideways (alternating node
+// displacement) with every link strained red, and settles
+function cascadeJolt() {
+  const g = newG();
+  const jx = i => (i % 2 === 0 ? 2 : -2);
+  NODES.forEach(([r, c], i) => {
+    const jc = c + jx(i), big = i === 0 ? 1 : 0;
+    const r2 = r + 6 + big*2, c2 = jc + 6 + big*2;
+    eR(g, r, r2, jc, c2, 'P');
+    eR(g, r, r, jc+1, c2-1, 'K');
+    eR(g, r2-1, r2, jc+1, c2-1, 'O');
+    eCarve(g, r, r, jc, jc); eCarve(g, r, r, c2, c2);
+    eCarve(g, r2, r2, jc, jc); eCarve(g, r2, r2, c2, c2);
+    eR(g, r+2+big, r+3+big, jc+2+big, jc+3+big, 'N');
+    if (i === 0) { eP(g, r+3, jc+2, 'E'); eP(g, r+3, jc+6, 'E'); }
+  });
+  const out = eOutline(g);
+  for (let i = 0; i < NODES.length-1; i++) {
+    const [r1,c1] = NODES[i], [r2,c2] = NODES[i+1];
+    const cy1 = r1+4, cx1 = c1+jx(i)+4, cy2 = r2+4, cx2 = c2+jx(i+1)+4;
+    for (let t = 1; t <= 3; t++) {
+      const rr = Math.round(cy1 + (cy2-cy1)*t/4), cc = Math.round(cx1 + (cx2-cx1)*t/4);
+      eP(out, rr, cc, 'S');
+    }
+  }
+  return out;
+}
+const CAS_HIT = [
+  [eFlashOf(CASCADE[2]), 90],
+  [cascadeJolt(), 180],
+  [CASCADE[0], 160],
+  [CASCADE[1], 320]
+];
+// DEATH: the cascade finally stops — nodes go dark head-to-tail (dead links
+// drop out), then the dark chain falls and dissolves down to embers
+function cascadeDark(k, dr) {
+  dr = dr || 0;
+  const g = newG();
+  NODES.forEach(([r, c], i) => {
+    const dead = i < k, big = i === 0 ? 1 : 0, rr = r + dr;
+    const r2 = rr + 6 + big*2, c2 = c + 6 + big*2;
+    eR(g, rr, r2, c, c2, dead ? 'O' : 'P');
+    if (!dead) { eR(g, rr, rr, c+1, c2-1, 'K'); eP(g, rr+1, c+1, 'K'); }
+    eR(g, r2-1, r2, c+1, c2-1, dead ? 'M' : 'O');
+    eCarve(g, rr, rr, c, c); eCarve(g, rr, rr, c2, c2);
+    eCarve(g, r2, r2, c, c); eCarve(g, r2, r2, c2, c2);
+    eR(g, rr+2+big, rr+3+big, c+2+big, c+3+big, dead ? 'M' : 'N');
+    if (i === 0 && !dead) { eP(g, rr+3, c+2, 'E'); eP(g, rr+3, c+6, 'E'); }
+  });
+  const out = eOutline(g);
+  for (let i = 0; i < NODES.length-1; i++) {
+    if (i < k) continue;
+    const [r1,c1] = NODES[i], [r2,c2] = NODES[i+1];
+    const cy1 = r1+dr+4, cx1 = c1+4, cy2 = r2+dr+4, cx2 = c2+4;
+    for (let t = 1; t <= 3; t++) {
+      const rr = Math.round(cy1 + (cy2-cy1)*t/4), cc = Math.round(cx1 + (cx2-cx1)*t/4);
+      eP(out, rr, cc, t % 2 ? 'a' : 'P');
+    }
+  }
+  return out;
+}
+function cascadeAshes() {
+  const g = newG();
+  NODES.forEach(([r, c]) => { eP(g, Math.min(56, r+12), c+3, 'O'); eP(g, Math.min(57, r+14), c+5, 'P'); });
+  eP(g, NODES[0][0]+8, NODES[0][1]+4, 'W');
+  return g;
+}
+const CAS_DIE = [
+  [CASCADE[0], 220],
+  [cascadeDark(2), 200],
+  [cascadeDark(4), 200],
+  [cascadeDark(6), 280],
+  [eDitherAll(cascadeDark(6, 5), 2), 220],
+  [eDitherAll(cascadeDark(6, 11), 3), 220],
+  [cascadeAshes(), 600]
+];
 function drawGrid(ctx, grid, s, rows, cols) {
   ctx.imageSmoothingEnabled = false;
   const R2 = rows || ROWS, C2 = cols || COLS;
@@ -542,6 +678,16 @@ CASCADE.forEach((fr, i) => {
   const cv = document.getElementById('cf' + i);
   if (cv) drawGrid(cv.getContext('2d'), fr, 3, EROWS, ECOLS);
 });
+function reelLoop(id, reel) {
+  const ctx = document.getElementById(id).getContext('2d');
+  let p = 0;
+  function step() { drawGrid(ctx, reel[p][0], 6, EROWS, ECOLS); const ms = reel[p][1]; p = (p+1) % reel.length; setTimeout(step, ms); }
+  step();
+}
+reelLoop('kAtk', CAS_ATK);
+reelLoop('kHit', CAS_HIT);
+reelLoop('kDie', CAS_DIE);
+document.body.style.borderTop = '10px solid #00ff00';
 const ctxH = document.getElementById('vHero').getContext('2d');
 let ph = 0;
 setInterval(() => { ph = (ph+1) % 2; drawGrid(ctxH, IDLE[ph], 6); }, 440);
