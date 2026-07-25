@@ -20,6 +20,7 @@
   <div class="cell"><canvas id="animBuff" width="288" height="360"></canvas><div>buff loop</div></div>
   <div class="cell"><canvas id="animDebuff" width="288" height="360"></canvas><div>debuff loop</div></div>
   <div class="cell"><canvas id="animCast" width="288" height="360"></canvas><div>cast loop</div></div>
+  <div class="cell"><canvas id="animPwr" width="288" height="360"></canvas><div>power through loop</div></div>
 </div>
 <div id="report"></div>
 <div id="err"></div>
@@ -144,6 +145,20 @@ function buildFrame(opts) {
     // right (near) arm thrust straight at the enemy, palm open
     rectU(21,24,11,13,'Y'); pxU(21,11,'I'); hlineU(24,11,13,'b');
     rectU(22,24,4,10,'C');
+  } else if (arm === 'raise') {
+    // POWER THROUGH wind-up: both hands on the hilt, blade whipped up
+    // behind the shoulder (viewer-right), classic overhead anticipation
+    rectU(19,21,24,27,'Y'); pxU(21,27,'b');         // far sleeve pulled up
+    rectU(16,18,27,29,'B');                          // far upper arm angled up
+    rectU(14,15,29,31,'B');                          // stacked fists on the grip
+    rectU(21,24,11,13,'Y'); pxU(21,11,'I'); hlineU(24,11,13,'b');
+    rectU(17,18,14,20,'C'); rectU(15,16,20,26,'C');  // near arm crossing up to join
+  } else if (arm === 'crash') {
+    // POWER THROUGH impact: lunge, blade smashed down-left into the ground
+    rectU(21,23,24,27,'Y'); pxU(23,27,'b');         // far sleeve
+    rectU(24,25,18,23,'B'); rectU(25,26,13,17,'B'); // arm driving down-left
+    rectU(26,28,10,12,'B');                          // both fists low
+    rectU(21,24,11,13,'Y'); pxU(21,11,'I'); hlineU(24,11,13,'b');
   } else if (arm === 'grip') {
     // left (far) arm reaches across the body to the hilt at the near hip
     rectU(21,23,24,27,'Y'); pxU(23,27,'b');         // far sleeve
@@ -198,6 +213,30 @@ function buildFrame(opts) {
     hline(55,10,17,'J'); hline(56,10,17,'Z');
     rect(52,56,21,26,'K'); px(52,21,'J'); px(53,25,'J'); px(54,23,'J'); px(53,22,'L');
     hline(55,21,26,'J'); hline(56,21,26,'Z');
+  } else if (legs === 'lunge') {
+    // LUNGE (crash step): front leg planted a stride forward, back leg
+    // trailing on its toes, scabbard swung two cols back.
+    hlineU(33,16,20,'M'); hlineU(34,19,23,'M'); hlineU(35,22,26,'M');
+    pxU(35,27,'M'); hlineU(36,27,30,'P'); hlineU(37,28,32,'N'); pxU(37,28,'M'); hlineU(38,30,33,'N');
+    rect(33,37,14,25,'a'); rect(33,37,22,25,'Z'); hline(37,17,21,'Y');
+    px(34,15,'h'); px(35,15,'h');
+    // front leg: thigh slopes down-forward to a bent knee, shin drops to the planted foot
+    for (let i = 0; i <= 5; i++) { hline(38+i, 13-i, 17-i, 'a'); px(38+i, 16-i, 'Z'); }
+    px(39,13,'h'); px(40,12,'h'); px(41,11,'h'); px(42,10,'h'); px(43,9,'h');
+    rect(44,45,8,12,'a'); px(44,11,'Z'); px(45,11,'Z');
+    rect(46,51,7,11,'a'); vline(10,46,51,'Z'); vline(8,46,50,'h');
+    rect(52,56,4,11,'K'); px(52,10,'J'); px(53,5,'L'); px(53,6,'L');
+    hline(55,4,11,'J'); hline(56,4,11,'Z');
+    // back leg: one extended diagonal behind onto a toe-stance sneaker, heel up
+    for (let r = 38; r <= 52; r++) { const s = ((r-38)/2)|0; hline(r, 21+s, 24+s, 'Z'); px(r, 23+s, 'Y'); }
+    hline(51,31,34,'K');
+    hline(52,29,35,'K');
+    hline(53,28,35,'K'); px(53,34,'L');
+    hline(54,27,34,'K');
+    hline(55,26,33,'K');
+    hline(56,26,29,'K');
+    // belt over the hips
+    hlineU(32,14,25,'b'); pxU(32,16,'W'); pxU(32,19,'c'); pxU(32,22,'c');
   } else {
     // KNEEL (designed for o=6): front thigh HORIZONTAL to a forward knee with
     // the shin planted below it; back knee ON the ground, lower leg folded
@@ -234,6 +273,12 @@ function buildFrame(opts) {
     [[36,26,'P'],[36,27,'P'],[36,28,'P'],[37,26,'P'],[37,27,'O'],[37,28,'O'],[37,29,'O'],[37,30,'O'],
      [38,26,'O'],[38,27,'O'],[38,28,'O'],[38,29,'O'],[38,30,'W'],[38,31,'W'],[39,30,'W'],[39,31,'X'],
      [36,25,'W'],[37,25,'W']].forEach(([r,c,k]) => post(r+o,c,k));
+  }
+  // scabbard tip + fittings, lunge variant (two cols back)
+  if (legs === 'lunge') {
+    [[36,28,'P'],[36,29,'P'],[36,30,'P'],[37,28,'P'],[37,29,'O'],[37,30,'O'],[37,31,'O'],[37,32,'O'],
+     [38,28,'O'],[38,29,'O'],[38,30,'O'],[38,31,'O'],[38,32,'W'],[38,33,'W'],[39,32,'W'],[39,33,'X'],
+     [36,27,'W'],[37,27,'W']].forEach(([r,c,k]) => post(r+o,c,k));
   }
   // beard (head-locked)
   [[14,16,'b'],[15,15,'b'],[15,18,'b']].forEach(([r,c,k]) => post(r+hd,c+hx,k));
@@ -301,6 +346,18 @@ function buildFrame(opts) {
     // open hand at the far end (bolt overlay leaves from here)
     for (let c = 5; c <= 10; c++) { post(22+o,c,'D'); post(23+o,c,'C'); }
     [[22,3,'D'],[22,4,'D'],[23,3,'C'],[23,4,'C']].forEach(([r,c,k]) => post(r+o,c,k));
+  } else if (arm === 'raise') {
+    // fists re-posted over their own outline + guard + blade angled up behind
+    [[14,29,'B'],[14,30,'B'],[15,29,'B'],[15,30,'B'],[15,31,'B'],[14,31,'C']].forEach(([r,c,k]) => post(r+o,c,k));
+    post(13+o,30,'W'); post(13+o,31,'W');            // guard
+    for (let i = 0; i <= 7; i++) { post(12+o-i,31+i,'K'); post(13+o-i,32+i,'P'); }
+    post(4+o,39,'L');                                // tip glint
+  } else if (arm === 'crash') {
+    // fists + guard + blade driven down-left to the ground
+    [[26,10,'B'],[26,11,'B'],[27,10,'B'],[27,11,'B'],[28,10,'B'],[28,11,'B'],[26,12,'C']].forEach(([r,c,k]) => post(r+o,c,k));
+    post(28+o,9,'W'); post(29+o,9,'W');              // guard
+    for (let i = 0; i <= 9; i++) { post(29+o+i,8-i,'K'); post(30+o+i,9-i,'P'); }
+    post(39+o,-2,'L');                               // tip biting the ground
   }
 
   return out;
@@ -367,6 +424,23 @@ const CAST = [
   buildFrame({o:1})
 ];
 const CAST_MS = [180, 200, 90, 140, 200];
+// POWER THROUGH: crouch grip -> wind-up behind the shoulder -> held anticipation
+// with a blade glint -> lunging overhead crash with impact burst + swing streak
+// -> hold -> recover
+const PWR_WIND = buildFrame({o:0, arm:'raise'});
+const PWR_CRASH = buildFrame({o:2, arm:'crash', legs:'lunge', xo:-2});
+const PWR = [
+  buildFrame({o:1, arm:'grip'}),
+  PWR_WIND,
+  overlay(PWR_WIND, [[6,44,'X'],[7,43,'X'],[8,42,'W']]),
+  overlay(PWR_CRASH, [
+    [39,4,'L'],[40,2,'X'],[40,6,'W'],[42,1,'L'],[42,7,'P'],[43,4,'P'],[41,0,'W'],[38,6,'P'],
+    [12,36,'P'],[18,30,'L'],[25,23,'L'],[32,15,'L'],[38,8,'P']
+  ]),
+  PWR_CRASH,
+  buildFrame({o:1, arm:'grip'})
+];
+const PWR_MS = [200, 160, 240, 90, 200, 220];
 // hit: white flash (recoiled) -> recoil hold -> back to idle
 const HIT_RECOIL = buildFrame({o:1, xo:2, headX:1, arm:'guard'});
 const HIT = [flashOf(HIT_RECOIL), HIT_RECOIL, buildFrame({o:0, xo:1, arm:'guard'}), IDLE[0]];
@@ -427,6 +501,8 @@ looper('animAtk', REEL);
 looper('animBuff', BUFF.map((f,i) => [f, BUFF_MS[i]]).concat([[IDLE[0], 500]]));
 looper('animDebuff', DEBUFF.map((f,i) => [f, DEBUFF_MS[i]]).concat([[IDLE[0], 500]]));
 looper('animCast', CAST.map((f,i) => [f, CAST_MS[i]]).concat([[IDLE[0], 500]]));
+looper('animPwr', PWR.map((f,i) => [f, PWR_MS[i]]).concat([[IDLE[0], 500]]));
+addStatic(PWR[1], 'p1 windup'); addStatic(PWR[3], 'p3 crash');
 
 // self-check
 let cells = ATK.concat(HIT).concat(KO).map(f => f.flat().filter(x => x !== null).length);
