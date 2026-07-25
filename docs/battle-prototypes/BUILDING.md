@@ -1,0 +1,106 @@
+# Building the sprites and animations
+
+The complete method behind every sprite in this directory. This is the persistence layer: with this file plus the lab HTMLs, the whole pipeline can be rebuilt from scratch. Written 2026-07-25 at the end of the design sessions that produced the hero and all four bosses.
+
+## 1. Architecture: grid-as-data
+
+Every sprite is a 2D array of palette letters (`null` = transparent). Rendering is one loop: `fillRect` per cell at integer scale on a canvas with `image-rendering: pixelated`. No images, no files — the grid IS the sprite, which makes every pixel diffable, dumpable, and verifiable in Node.
+
+### Palette (shared, 38 slots)
+
+```
+A #2e1a10  B #7d4e26  C #b5793a  D #d49a5c   (skin: shadow→highlight)
+E #100a10  F #241a20  G #3a2a20  H #55402e   (hair: base, grooves, accents, twist-checker)
+I #4a4440  J #8a8078  K #cfc8bc  L #f0ece0   (grays: dark→white; steel, sneakers, eyes, blade)
+M #0f0d18  N #1c1830  O #2e2a44  P #4a4468   (void blues: scabbard, ghosts, wisps)
+Q #3f0e12  R #6b1418  S #bd2421  T #e04838   (reds: dark→glow; eyes, alerts, cracks)
+U #4a3a18  V #947d42  W #c9a94f  X #e7cb6b   (golds: chain, tips, trim, cores)
+Y #3a3632  Z #6e6862  a #a29a90              (warm grays: shirt, pants)
+b #1c1410  c #3a2c1e  d #5a4630              (leather/belt)
+e #181818                                     (auto-outline)
+f #55524c  g #2a2724                          (shirt rim-light / folds)
+h #c3bbae  i #948d80                          (pants highlight / shade)
+j #6a3d8f  k #9d6bc4                          (corruption purples: debuff, imposter)
+```
+
+### Grids and helpers
+
+- Hero: `ROWS=60, COLS=48, BX=8` (BX = base column shift; `px`/`post` add it). Hero occupies rows 4–56.
+- Enemies: `EROWS=60, ECOLS=64` with their own `eP/eR/eCarve/eOutline/eDither` helpers (see any boss lab).
+- Ops: `px(r,c,k)`, `rect`, `vline`, `hline`; hero adds offset families — `pxU` etc. add torso offset `o`, `pxH` etc. add head offset `hd` and head-jerk `hx`.
+
+### `buildFrame(opts)` (hero)
+
+`o` torso bob offset · `headO` head offset (defaults to `o`; larger = bow) · `headX` sideways head jerk · `xo` whole-sprite shift · `arm`: `idle | guard | grip | draw | sweep | slash | charge | cast` · `legs`: `stand | kneel` · `streak`: slash trail on/off. Draw order matters: belt and near-hand are drawn AFTER pants so the bob offset can't erase them; the chain is drawn BEFORE the torso rect (which is why its bottom X link never renders — known cosmetic).
+
+## 2. The auto-outline pass and its ONE BIG TRAP
+
+After painting, every opaque cell 4-adjacent to transparency becomes `e` (#181818). This gives free outlines but **eats any shape 1–2px thick that stands free**: blades, fists, wisps, hem tatters, wing cores, hanging twist tails, thin extended arms. It bit us on every single sprite.
+
+**The fix, always:** re-post the pixels AFTER the outline pass via `post(r,c,k)` (hero) or by painting directly on the outlined grid (enemies). Rule of thumb: anything thinner than 3px in either dimension, or any detail ON a shape's top/bottom row, must be posted post-outline. Interior details (≥1 cell from every silhouette edge) survive and can be painted pre-outline. When a limb must read 2px, paint 3 rows and post a top-lit highlight row (e.g. `D` over `C`) over its own outline.
+
+## 3. Effect helpers (composable, all pure grid→grid)
+
+- `flashOf(grid)` — full-silhouette white flash (hit frame 0).
+- `tintOf(grid, main, alt, mod)` — full-body two-tone tint via `(r+c)%mod` (buff shimmer, debuff flash).
+- `overlay(grid, pts)` — stamp loose pixels in grid coords (BX already included). Used for sparkles, motes, orbs, bolts, eye swaps.
+- `remapOf(grid, map)` — letter→letter palette swap. This is how Imposter Syndrome exists: the entire boss is the hero's frames through `IMPOSTER_MAP` plus eye overlays. Near-free boss.
+- `glitchOf(grid, shifts, scans, noise)` — horizontal row-band displacement (gap stays transparent), solid-color scanlines, stray static pixels. 90ms glitch frames injected into an idle loop.
+- `eDither(grid, r1,r2,c1,c2)` — checkerboard-to-transparent for translucency (ghost edges, dissolving tails, smoke). **Run AFTER outline** (dither-then-outline turns the whole region into outline), and re-post anything that must stay solid (eyes) after dithering.
+- `eCarve` — punch transparent holes post-outline for "nothing behind this" reads (empty visor, chest rent).
+
+## 4. Animation patterns
+
+- Frame arrays paired with per-frame durations; a `looper(canvasId, [[frame,ms],...])` steps with `setTimeout`.
+- Idle = 2-frame bob at ~440ms. Attack = 7 frames with fast middle (90/70/80ms) and slow anticipation/recovery.
+- **Desync float** (Silent Failure): main stack bobs on `om=fr`, side pieces on `os=1-fr` — pieces held together by nothing.
+- **Sequential pulse** (Cascade): N frames, frame index = lit node; afterglow = previous index in `W`; the crossed link lights; wrap to head.
+- **State cycles** (Alert Storm hidden→scream, Silent Failure body→fade→empty): build each state as its own frame pair, splice into one reel with tween frames (dithered body = mid-vanish).
+- Boss scale rule: a boss must TOP and BOTTOM the hero's rows (hero 4–56) — measure bounding boxes, don't eyeball; a wide-but-short assembly reads "sprawling", not "looming".
+
+## 5. Verification pipeline (the actual reason these sprites are correct)
+
+Never trust the mind's eye on a 60×48 grid. Three layers, in order:
+
+### 5a. Node ground truth (before any render)
+
+Extract the page's script and eval it with a DOM stub, then dump ASCII grids and run numeric audits:
+
+```js
+const html = require('fs').readFileSync('page.html', 'utf8');
+const body = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1])[1];
+const stub = `const anyEl=()=>new Proxy({},{get:(t,p)=>p==='getContext'?()=>new Proxy({},{get:()=>()=>{}}):(p==='style'?{}:()=>anyEl())});const document={getElementById:anyEl,body:{style:{}},createElement:anyEl};const window={addEventListener:()=>{}};const setInterval=()=>{};const setTimeout=()=>{};`;
+const dump = `
+function show(g,r1,r2,c1,c2,l){console.log('== '+l+' ==');for(let r=r1;r<=r2;r++){let s='';for(let c=c1;c<=c2;c++)s+=(g[r][c]===null?'.':g[r][c]);console.log(String(r).padStart(2)+' '+s);}}
+show(IDLE[0], 0, 20, 16, 36, 'head');`;
+eval(stub + body + dump);
+```
+
+Standard audits: per-column thickness counts (arm ≥2 skin cells), silhouette cell-diffs between variants (palette swaps must be 0), floating-pixel checks (every effect pixel needs ≥2 solid neighbors), bounding boxes, exactly-N-cells-of-color counts (e.g. "exactly one bat has red pixels").
+
+### 5b. Numeric contrast audit (the dark-on-dark trap)
+
+Tones within ~25–30 RGB euclidean distance of their neighbors are invisible — this recurred constantly (near-black hair tones reading as flat, `A` shading vanishing on `Y` shirt, `N` on the `#0e1630` page background at distance 14). Check pairs numerically before rendering:
+
+```js
+const rgb = h => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+const dist = (a,b) => Math.round(Math.hypot(...rgb(PAL[a]).map((v,i) => v - rgb(PAL[b])[i])));
+// require dist >= ~35 for tone-on-tone details, >= ~40 vs the page background
+```
+
+### 5c. Headless render + marker check
+
+```powershell
+& "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless=new --disable-gpu `
+  --window-size=1700,700 --screenshot=$out "file:///.../page.html"
+for ($i=0; $i -lt 20; $i++) { if (Test-Path $out) { break }; Start-Sleep -m 500 }  # first write races
+```
+
+The page carries a green bar div at a known y (render-succeeded marker) and a `window.onerror` handler that prints a giant red JSERROR banner; the checker samples pixels for both via `System.Drawing`. For substantive/final models, an independent reviewer then judges the PNG against a written checklist (coherence, materials, scale vs hero, glitches) and must return pixel-coordinate evidence, not vibes — its numeric claims get re-verified against the Node dumps.
+
+## 6. Extending
+
+- New hero move: add an `arm` mode branch (pre-outline geometry) + post-outline re-posts for thin parts + hilt-visibility rules (`sheathed hilt` condition lists the modes where the sword stays at the hip).
+- New palette-swap enemy: `remapOf` + eye overlay + 2 glitch frames ≈ one sitting.
+- New built boss: start wireframe-fidelity (3 visibly different silhouettes), pick, then detail pass (inset rims/highlights one row inside the outline, gold accents, engraving lines in `g`, corner carves for rounding).
+- Backlog (from the gameplay addendum): hero Power Through / Fan Out / Rollback / Root Cause / Ship It animations; per-boss attack, hit, death frames.
