@@ -8,6 +8,9 @@ canvas{image-rendering:pixelated}
 <div class="bar" style="margin-top:12px"></div>
 <div class="row">
   <div class="cell"><canvas id="vImposter" width="288" height="360"></canvas><div>Imposter Syndrome</div></div>
+  <div class="cell"><canvas id="iAtk" width="288" height="360"></canvas><div>attack: stolen technique</div></div>
+  <div class="cell"><canvas id="iHit" width="288" height="360"></canvas><div>hit: glitch instead of flinch</div></div>
+  <div class="cell"><canvas id="iDie" width="288" height="360"></canvas><div>death: shred to static</div></div>
   <div class="cell"><canvas id="vHero" width="288" height="360"></canvas><div>hero ref</div></div>
   <div class="cell"><canvas id="sImposter" width="192" height="240"></canvas><div>slash</div></div>
   <div class="cell"><canvas id="sGlitchA" width="192" height="240"></canvas><div>glitch A</div></div>
@@ -399,6 +402,46 @@ const GLITCH_B = glitchOf(IMP_IDLE[1],
   [[9,32,'j'],[30,7,'k'],[48,34,'j'],[18,33,'k']]);
 const IMP_REEL = [[IMP_IDLE[0],440],[IMP_IDLE[1],440],[IMP_IDLE[0],440],[GLITCH_A,90],
   [IMP_IDLE[1],440],[IMP_IDLE[0],440],[IMP_IDLE[1],440],[GLITCH_B,90]];
+// ---- BATTLE ANIMATIONS: attack / hit / death ----
+// ATTACK: the stolen technique — the imposter performs the HERO'S own iai
+// draw-cut, remapped to the corruption palette, with glitch tears mid-swing
+// and a glitch flicker on the recovery. Red eyes ride every frame.
+const IMP_ATK = [
+  [IMP_IDLE[0], 260],
+  [eyes(remapOf(ATK[1], IMPOSTER_MAP), 2), 220],
+  [eyes(remapOf(ATK[2], IMPOSTER_MAP), 1), 90],
+  [glitchOf(eyes(remapOf(ATK[3], IMPOSTER_MAP), 0), [[20,26,2]], [], [[24,6,'k']]), 80],
+  [overlay(eyes(remapOf(ATK[4], IMPOSTER_MAP), 0), [[26,2,'k'],[21,6,'j'],[27,12,'k']]), 100],
+  [eyes(remapOf(ATK[5], IMPOSTER_MAP), 0), 170],
+  [GLITCH_B, 90],
+  [eyes(remapOf(ATK[6], IMPOSTER_MAP), 1), 200]
+];
+// HIT: it does not flinch — it GLITCHES: white flash, violent band-tear with
+// a red scanline, a standard glitch flicker, settle
+const IMP_HIT = [
+  [flashOf(IMP_IDLE[0]), 90],
+  [glitchOf(IMP_IDLE[1], [[8,14,3],[20,30,-3],[40,46,2]], [[25,'T']], [[12,38,'k'],[33,4,'j'],[44,40,'k']]), 170],
+  [GLITCH_A, 100],
+  [IMP_IDLE[0], 320]
+];
+// DEATH: escalating glitch destruction — tears widen, scanlines take over,
+// the body dithers into static, and the red eyes linger last
+function hDither(grid, mod) {
+  return grid.map((row, r) => row.map((v, c) => v === null ? null : ((r + c) % mod === 0 ? v : null)));
+}
+const VOID = Array.from({length: ROWS}, () => Array(COLS).fill(null));
+const IMP_DIE = [
+  [IMP_IDLE[0], 240],
+  [flashOf(IMP_IDLE[1]), 90],
+  [glitchOf(IMP_IDLE[0], [[6,12,-4],[18,26,4],[34,40,-3]], [[15,'k'],[37,'T']],
+    [[10,2,'k'],[28,42,'j'],[50,4,'k']]), 160],
+  [glitchOf(IMP_IDLE[1], [[4,10,6],[16,24,-6],[30,38,5],[44,50,-5]], [[21,'k'],[42,'j']],
+    [[8,40,'T'],[26,2,'k'],[46,44,'j'],[14,0,'k']]), 160],
+  [hDither(glitchOf(IMP_IDLE[0], [[4,14,-8],[20,30,8],[36,48,-7]], [], []), 2), 200],
+  [hDither(glitchOf(IMP_IDLE[1], [[4,20,10],[26,40,-10]], [], []), 3), 220],
+  [overlay(VOID, [[10,23,'T'],[10,27,'T'],[14,20,'k'],[22,30,'j'],[30,14,'k'],[38,32,'j'],
+                  [46,18,'k'],[50,28,'g'],[18,8,'j'],[34,40,'k']]), 600]
+];
 function drawGrid(ctx, grid, s) {
   ctx.imageSmoothingEnabled = false;
   ctx.clearRect(0, 0, COLS*s, ROWS*s);
@@ -416,6 +459,10 @@ function looper(id, frames) {
 }
 looper('vImposter', IMP_REEL);
 looper('vHero', [[IDLE[0],440],[IDLE[1],440]]);
+looper('iAtk', IMP_ATK);
+looper('iHit', IMP_HIT);
+looper('iDie', IMP_DIE);
+document.body.style.borderTop = '10px solid #00ff00';
 drawGrid(document.getElementById('sImposter').getContext('2d'), IMP_SLASH, 4);
 drawGrid(document.getElementById('sGlitchA').getContext('2d'), GLITCH_A, 4);
 drawGrid(document.getElementById('sGlitchB').getContext('2d'), GLITCH_B, 4);
