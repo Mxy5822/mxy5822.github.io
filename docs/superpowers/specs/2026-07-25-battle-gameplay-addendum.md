@@ -62,7 +62,7 @@ All names, slugs, and flavor text still pass the base spec's constraint-2 review
 
 Prototype sprites for the hero (idle, attack, buff, cast-debuff, hit, KO) and all four bosses (models + signature idles: glitch, vanish cycle, scream cycle, pulse cycle) exist under `docs/battle-prototypes/` as self-contained HTML labs. Still to produce during S6:
 
-- Hero: Power Through, Fan Out, Rollback (all DONE 2026-07-25, in `hero-battle.html`); Root Cause, Ship It animations.
+- Hero: Power Through, Fan Out, Rollback, Root Cause (all DONE 2026-07-25, in `hero-battle.html`); Ship It animation.
 - Each boss: attack, hit, death frames.
 - Per-spell impact VFX rendered on top of the enemy (owner decision 2026-07-25): each spell gets its own overlay animation at the target; the enemy itself only flashes/flinches. Build these alongside the boss hit frames.
 

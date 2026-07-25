@@ -23,6 +23,7 @@
   <div class="cell"><canvas id="animPwr" width="288" height="360"></canvas><div>power through loop</div></div>
   <div class="cell"><canvas id="animFan" width="288" height="360"></canvas><div>fan out loop</div></div>
   <div class="cell"><canvas id="animRbk" width="288" height="360"></canvas><div>rollback loop</div></div>
+  <div class="cell"><canvas id="animRoot" width="288" height="360"></canvas><div>root cause loop</div></div>
 </div>
 <div id="report"></div>
 <div id="err"></div>
@@ -491,6 +492,33 @@ const RBK = [
   buildFrame({o:1})
 ];
 const RBK_MS = [200, 130, 130, 130, 130, 140, 220];
+
+// ROOT CAUSE: the anti-stealth strike — crouch grip -> quick draw -> a dead-
+// straight thrust whose tip detonates a reveal burst, then an expanding ring
+// with a red alert ping snapping in above the pinned point (found it), fade
+const ROOT_THRUST = buildFrame({o:0, arm:'slash'});
+// iai pacing: hand settles on the handle and HOLDS (three breathing frames,
+// hilt glint on the last), then a blink-fast draw-slice, the reveal ring
+// payoff beat, and a put-away back through the half-sheathed pose
+const ROOT = [
+  buildFrame({o:1, arm:'grip'}),
+  buildFrame({o:0, arm:'grip'}),
+  overlay(buildFrame({o:1, arm:'grip'}), [[30,21,'L'],[29,20,'X']]),
+  buildFrame({o:1, arm:'draw'}),
+  overlay(ROOT_THRUST, [
+    [21,2,'L'],[20,4,'W'],[26,2,'L'],[27,4,'W'],[22,6,'X'],[25,6,'X']
+  ]),
+  overlay(ROOT_THRUST, [
+    [18,3,'W'],[17,6,'X'],[19,1,'K'],[28,1,'K'],[29,3,'W'],[30,6,'X'],[21,8,'W'],[26,8,'W'],
+    [13,3,'T'],[14,3,'T'],[16,3,'S']
+  ]),
+  overlay(ROOT_THRUST, [
+    [18,2,'P'],[29,2,'P'],[17,7,'P'],[30,7,'P'],[15,3,'P']
+  ]),
+  buildFrame({o:1, arm:'draw'}),
+  buildFrame({o:1, arm:'grip'})
+];
+const ROOT_MS = [200, 170, 210, 70, 60, 220, 120, 110, 200];
 // hit: white flash (recoiled) -> recoil hold -> back to idle
 const HIT_RECOIL = buildFrame({o:1, xo:2, headX:1, arm:'guard'});
 const HIT = [flashOf(HIT_RECOIL), HIT_RECOIL, buildFrame({o:0, xo:1, arm:'guard'}), IDLE[0]];
@@ -557,6 +585,8 @@ looper('animFan', FAN.map((f,i) => [f, FAN_MS[i]]).concat([[IDLE[0], 500]]));
 addStatic(FAN[1], 'f1 charge'); addStatic(FAN[4], 'f4 wave2');
 looper('animRbk', RBK.map((f,i) => [f, RBK_MS[i]]).concat([[IDLE[0], 500]]));
 addStatic(RBK[2], 'r2 ring'); addStatic(RBK[5], 'r5 shimmer');
+looper('animRoot', ROOT.map((f,i) => [f, ROOT_MS[i]]).concat([[IDLE[0], 500]]));
+addStatic(ROOT[2], 'rc2 hilt hold'); addStatic(ROOT[5], 'rc5 reveal ring');
 
 // self-check
 let cells = ATK.concat(HIT).concat(KO).map(f => f.flat().filter(x => x !== null).length);
