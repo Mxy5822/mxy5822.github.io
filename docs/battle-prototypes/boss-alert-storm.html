@@ -8,6 +8,9 @@ canvas{image-rendering:pixelated}
 <div class="bar" style="margin-top:12px"></div>
 <div class="row">
   <div class="cell"><canvas id="oFinal" width="384" height="360"></canvas><div>ALERT STORM cycle</div></div>
+  <div class="cell"><canvas id="oAtk" width="384" height="360"></canvas><div>attack: alert broadcast</div></div>
+  <div class="cell"><canvas id="oHit" width="384" height="360"></canvas><div>hit: flash + scatter</div></div>
+  <div class="cell"><canvas id="oDie" width="384" height="360"></canvas><div>death: last scream + dissolve</div></div>
   <div class="cell"><canvas id="sStitch" width="216" height="168"></canvas><div>hidden (all)</div></div>
   <div class="cell"><canvas id="sHollow" width="216" height="168"></canvas><div>scream fake</div></div>
   <div class="cell"><canvas id="sRed" width="216" height="168"></canvas><div>scream real</div></div>
@@ -537,6 +540,85 @@ function soloBat(mouth) {
   return out;
 }
 const SOLO_STITCH = soloBat('stitched'), SOLO_HOLLOW = soloBat('hollow'), SOLO_RED = soloBat('red');
+// ---- BATTLE ANIMATIONS: attack / hit / death ----
+// enemy-grid effect helpers (hero overlay() is 60x48 — never reuse it here)
+function eOverlay(grid, pts) {
+  const g2 = grid.map(row => row.slice());
+  for (const [r, c, k] of pts) if (r >= 0 && r < EROWS && c >= 0 && c < ECOLS) g2[r][c] = k;
+  return g2;
+}
+function eFlashOf(grid) { return grid.map(row => row.map(k => k === null ? null : 'L')); }
+function eDitherAll(grid, mod) {
+  return grid.map((row, r) => row.map((v, c) => v === null ? null : ((r + c) % mod === 0 ? v : null)));
+}
+// ATTACK: the alert broadcast — EVERY bat emits an expanding scream ripple
+// from its mouth (paired side-arcs, three widening waves), but the fakes'
+// ripples are gray sound; only the SIGNAL bat's ripple is red.
+function screamRipple(wave) {
+  const pts = [];
+  SWARM.forEach(([r, c, ph], i) => {
+    const mr = r + 6, mc = c + 7;
+    const real = i === REAL_I;
+    const core = real ? 'T' : 'a', edge = real ? 'S' : 'J', dim = real ? 'R' : 'Z';
+    if (wave === 1) {
+      pts.push([mr-1,mc-3,edge],[mr,mc-4,core],[mr+1,mc-3,edge],
+               [mr-1,mc+3,edge],[mr,mc+4,core],[mr+1,mc+3,edge]);
+    } else if (wave === 2) {
+      pts.push([mr-2,mc-5,edge],[mr,mc-6,core],[mr+2,mc-5,edge],
+               [mr-2,mc+5,edge],[mr,mc+6,core],[mr+2,mc+5,edge]);
+    } else {
+      pts.push([mr-2,mc-7,dim],[mr,mc-8,dim],[mr+2,mc-7,dim],
+               [mr-2,mc+7,dim],[mr,mc+8,dim],[mr+2,mc+7,dim]);
+    }
+  });
+  return pts;
+}
+const STORM_ATK = [
+  [HIDDEN[0], 240],
+  [SCREAM[0], 200],
+  [eOverlay(SCREAM[1], screamRipple(1)), 130],
+  [eOverlay(SCREAM[0], screamRipple(2)), 150],
+  [eOverlay(SCREAM[1], screamRipple(3)), 150],
+  [HIDDEN[1], 320]
+];
+// HIT: white silhouette flash, then the swarm scatters (per-bat jitter —
+// the reshuffle read) and settles back to hidden
+const JIT = [[2,-2],[-2,1],[1,2],[-1,-2],[2,1],[1,1],[-2,-1],[1,-2],[-1,2],[2,2]];
+function stormJitterOf(f) {
+  const g = newG();
+  SWARM.forEach(([r, c, ph], i) => batFinal(g, r + JIT[i][0], c + JIT[i][1], (f + ph) % 2, 'stitched'));
+  const out = eOutline(g);
+  SWARM.forEach(([r, c, ph], i) => batFinalPost(out, r + JIT[i][0], c + JIT[i][1], (f + ph) % 2, 'stitched'));
+  return out;
+}
+const STORM_HIT = [
+  [eFlashOf(HIDDEN[0]), 90],
+  [stormJitterOf(1), 170],
+  [HIDDEN[0], 160],
+  [HIDDEN[1], 320]
+];
+// DEATH: one last full scream, a white pop, then the bats fall open-mouthed
+// and dissolve in two dither steps down to flecks + one red mote
+function stormFallOf(dr) {
+  const g = newG();
+  SWARM.forEach(([r, c, ph], i) => batFinal(g, r + dr + (i % 3) * 2, c, 1, 'hollow'));
+  const out = eOutline(g);
+  SWARM.forEach(([r, c, ph], i) => batFinalPost(out, r + dr + (i % 3) * 2, c, 1, 'hollow'));
+  return out;
+}
+function stormAshes() {
+  const g = newG();
+  [[52,10,'Y'],[54,18,'g'],[51,30,'Y'],[55,36,'g'],[53,46,'Y'],[50,55,'g'],[55,58,'Y'],
+   [44,33,'S'],[45,34,'R']].forEach(([r, c, k]) => eP(g, r, c, k));
+  return g;
+}
+const STORM_DIE = [
+  [SCREAM[0], 280],
+  [eFlashOf(SCREAM[1]), 100],
+  [eDitherAll(stormFallOf(4), 2), 220],
+  [eDitherAll(stormFallOf(10), 3), 220],
+  [stormAshes(), 600]
+];
 function drawCrop(ctx, grid, s, r1, r2, c1, c2) {
   ctx.imageSmoothingEnabled = false;
   ctx.clearRect(0, 0, (c2-c1+1)*s, (r2-r1+1)*s);
@@ -569,6 +651,16 @@ loopE('oA', OPT_A); loopE('oB', OPT_B); loopE('oC', OPT_C);
   function step() { drawGrid(ctx, STORM_REEL[p][0], 6, EROWS, ECOLS); const ms = STORM_REEL[p][1]; p = (p+1) % STORM_REEL.length; setTimeout(step, ms); }
   step();
 })();
+function reelLoop(id, reel) {
+  const ctx = document.getElementById(id).getContext('2d');
+  let p = 0;
+  function step() { drawGrid(ctx, reel[p][0], 6, EROWS, ECOLS); const ms = reel[p][1]; p = (p+1) % reel.length; setTimeout(step, ms); }
+  step();
+}
+reelLoop('oAtk', STORM_ATK);
+reelLoop('oHit', STORM_HIT);
+reelLoop('oDie', STORM_DIE);
+document.body.style.borderTop = '10px solid #00ff00';
 drawCrop(document.getElementById('sStitch').getContext('2d'), SOLO_STITCH, 12, 1, 14, 1, 18);
 drawCrop(document.getElementById('sHollow').getContext('2d'), SOLO_HOLLOW, 12, 1, 14, 1, 18);
 drawCrop(document.getElementById('sRed').getContext('2d'), SOLO_RED, 12, 1, 14, 1, 18);
