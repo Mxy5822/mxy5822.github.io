@@ -8,6 +8,9 @@ canvas{image-rendering:pixelated}
 <div class="bar" style="margin-top:12px"></div>
 <div class="row">
   <div class="cell"><canvas id="dFinal" width="384" height="360"></canvas><div>SILENT FAILURE final</div></div>
+  <div class="cell"><canvas id="sAtk" width="384" height="360"></canvas><div>attack: strike from nowhere</div></div>
+  <div class="cell"><canvas id="sHit" width="384" height="360"></canvas><div>hit: flash + recoil</div></div>
+  <div class="cell"><canvas id="sDie" width="384" height="360"></canvas><div>death: the wisps let go</div></div>
   <div class="cell"><canvas id="dA" width="384" height="360"></canvas><div>A specter</div></div>
   <div class="cell"><canvas id="dB" width="384" height="360"></canvas><div>B smoke</div></div>
   <div class="cell"><canvas id="dC" width="384" height="360"></canvas><div>C hollow armor</div></div>
@@ -555,6 +558,134 @@ const SIL_REEL = [
   [SIL_EMPTY[0],520],[SIL_EMPTY[1],520],[SIL_EMPTY[0],420],
   [SIL_FADE[0],130]
 ];
+// ---- BATTLE ANIMATIONS: attack / hit / death ----
+// enemy-grid effect helpers (hero overlay() is 60x48 — never reuse it here)
+function eOverlay(grid, pts) {
+  const g2 = grid.map(row => row.slice());
+  for (const [r, c, k] of pts) if (r >= 0 && r < EROWS && c >= 0 && c < ECOLS) g2[r][c] = k;
+  return g2;
+}
+function eFlashOf(grid) { return grid.map(row => row.map(k => k === null ? null : 'L')); }
+function eDitherAll(grid, mod) {
+  return grid.map((row, r) => row.map((v, c) => v === null ? null : ((r + c) % mod === 0 ? v : null)));
+}
+function eShift(grid, dr, dc) {
+  const g = newG();
+  for (let r = 0; r < EROWS; r++) for (let c = 0; c < ECOLS; c++)
+    if (grid[r][c] !== null) eP(g, r + dr, c + dc, grid[r][c]);
+  return g;
+}
+// ATTACK: telekinetic point-and-swing — the armor stays planted; the far
+// gauntlet and ghost blade lift, ROTATE to horizontal (the hand points at the
+// hero, the sword levels out above it), thrust along that line with a wisp
+// thread trailing back, then swing home and re-hang vertical. The body
+// flickers back afterward (the tell).
+// NOTE: buildSilAtk depends on PIECES/pieceShift defined below.
+const SIL_ATK = [];
+function buildSilAtk() {
+  const silArmorBase = f => {
+    const moves = PIECES.map(() => [0, 0]);
+    moves[5] = [99, 0]; moves[7] = [99, 0];     // drop gauntlet + blade off-grid
+    return pieceShift(SIL_EMPTY[f], moves);
+  };
+  const silReach = (f, dr, dc) => {
+    const moves = PIECES.map(() => [0, 0]);
+    moves[5] = [dr, dc]; moves[7] = [dr, dc];
+    return pieceShift(SIL_EMPTY[f], moves);
+  };
+  const eMerge = (base, over) => {
+    const g = base.map(row => row.slice());
+    for (let r = 0; r < EROWS; r++) for (let c = 0; c < ECOLS; c++)
+      if (over[r][c] !== null) g[r][c] = over[r][c];
+    return g;
+  };
+  // horizontal pointing gauntlet at (hr,hc) + horizontal sword at (sr,sc)
+  const handSword = (hr, hc, sr, sc, ext) => {
+    const g = newG();
+    eR(g, hr, hr+4, hc, hc+5, 'J');
+    eR(g, hr, hr, hc+1, hc+4, 'K');
+    eR(g, hr+3, hr+4, hc, hc+5, 'I');
+    eR(g, hr+1, hr+2, hc+6, hc+9, 'J');           // pointing finger
+    eR(g, sr-1, sr+2, sc, sc+1, 'W');             // crossguard bar
+    eR(g, sr, sr+1, sc+2, sc+2+ext, 'K');         // blade slab
+    const out = eOutline(g);
+    // thin horizontals re-posted over their own outline (the standing trap)
+    for (let c = sc+2; c <= sc+2+ext; c++) { eP(out, sr, c, 'K'); eP(out, sr+1, c, 'P'); }
+    eP(out, sr, sc+3+ext, 'K'); eP(out, sr, sc+4+ext, 'L');   // taper + tip glint
+    eP(out, sr, sc+5, 'L'); eP(out, sr, sc+9, 'L');           // face glints
+    eR(out, sr-1, sr+2, sc, sc, 'W'); eR(out, sr-1, sr+2, sc+1, sc+1, 'V');
+    eP(out, hr+1, hc+7, 'J'); eP(out, hr+2, hc+7, 'K');       // finger re-post
+    eP(out, hr+1, hc+8, 'K'); eP(out, hr+2, hc+8, 'J'); eP(out, hr+1, hc+9, 'K');
+    return out;
+  };
+  const HS_NEAR1 = eOverlay(eMerge(silArmorBase(1), handSword(24, 45, 20, 48, 8)), [[22,43,'P']]);
+  const HS_THRUST = eOverlay(eMerge(silArmorBase(0), handSword(24, 46, 20, 50, 9)),
+    [[20,46,'P'],[21,45,'P'],[22,44,'P'],[19,63,'L'],[23,63,'K'],[21,62,'L']]);
+  const HS_NEAR0 = eOverlay(eMerge(silArmorBase(0), handSword(25, 45, 21, 48, 8)), [[23,43,'P']]);
+  SIL_ATK.push(
+    [SIL_EMPTY[0], 300],
+    [silReach(1, -1, 1), 130],
+    [HS_NEAR1, 170],
+    [HS_THRUST, 190],
+    [HS_NEAR0, 140],
+    [silReach(0, -1, 1), 120],
+    [SIL_EMPTY[1], 220],
+    [SIL_FADE[0], 130],
+    [SIL_BODY[0], 380]
+  );
+}
+// HIT: only the embodied form takes hits — white flash, recoil away with
+// body-wisps knocked loose, settle
+const KNOCKED = [[16,12,'O'],[20,11,'P'],[28,12,'O'],[37,12,'P'],[44,14,'O'],[11,14,'P']];
+const SIL_HIT = [
+  [eFlashOf(SIL_BODY[0]), 90],
+  [eOverlay(eShift(SIL_BODY[1], 0, -2), KNOCKED), 180],
+  [SIL_BODY[0], 160],
+  [SIL_BODY[1], 320]
+];
+// DEATH: the body dissolves, then the wisps holding the armor LET GO —
+// pieces separate, fall, and land in a heap that fades to nothing
+const PIECES = [
+  // [r1,r2,c1,c2] boxes on SIL_EMPTY[0] (om=0, os=1)
+  [0,11,28,38],    // helmet
+  [13,20,19,27],   // near pauldron
+  [13,20,39,47],   // far pauldron
+  [20,30,27,39],   // breastplate
+  [25,32,16,22],   // near gauntlet
+  [25,32,44,50],   // far gauntlet
+  [32,38,25,41],   // hip plate
+  [12,37,51,58]    // ghost blade
+];
+function pieceShift(src, moves) {
+  const g = newG();
+  PIECES.forEach(([r1, r2, c1, c2], i) => {
+    const [dr, dc] = moves[i];
+    for (let r = r1; r <= r2; r++) for (let c = c1; c <= c2; c++)
+      if (src[r][c] !== null) eP(g, r + dr, c + dc, src[r][c]);
+  });
+  return g;
+}
+const SEP_MOVES  = [[-1,0],[1,-2],[1,2],[1,0],[2,-2],[2,2],[1,0],[2,1]];
+const FALL_MOVES = [[8,1],[10,-4],[10,4],[9,0],[12,-3],[12,3],[8,0],[14,2]];
+buildSilAtk();
+function silentHeap() {
+  const g = newG();
+  eR(g, 52, 56, 29, 37, 'J'); eR(g, 52, 52, 30, 36, 'K');   // helmet dome down
+  eR(g, 54, 56, 20, 26, 'J'); eR(g, 54, 54, 21, 25, 'I');   // pauldron chunk
+  eR(g, 53, 56, 39, 46, 'I'); eR(g, 53, 53, 40, 45, 'J');   // breastplate slab
+  eR(g, 55, 56, 47, 58, 'K'); eR(g, 56, 56, 47, 58, 'P');   // blade lying flat
+  eP(g, 53, 33, 'W'); eP(g, 55, 23, 'W'); eP(g, 55, 50, 'X'); // gold glints
+  return eOutline(g);
+}
+const SIL_DIE = [
+  [SIL_BODY[0], 260],
+  [eFlashOf(SIL_BODY[1]), 90],
+  [SIL_FADE[1], 180],
+  [pieceShift(SIL_EMPTY[0], SEP_MOVES), 220],
+  [pieceShift(SIL_EMPTY[0], FALL_MOVES), 230],
+  [silentHeap(), 400],
+  [eOverlay(eDitherAll(silentHeap(), 2), [[46,32,'P'],[43,34,'O'],[40,33,'P'],[47,44,'P'],[44,45,'O']]), 600]
+];
 function drawGrid(ctx, grid, s, rows, cols) {
   ctx.imageSmoothingEnabled = false;
   ctx.clearRect(0, 0, (cols||COLS)*s, (rows||ROWS)*s);
@@ -578,6 +709,16 @@ loopE('dA', DRAFT_A); loopE('dB', DRAFT_B); loopE('dC', DRAFT_C);
   function step() { drawGrid(ctx, SIL_REEL[p][0], 6, EROWS, ECOLS); const ms = SIL_REEL[p][1]; p = (p+1) % SIL_REEL.length; setTimeout(step, ms); }
   step();
 })();
+function reelLoop(id, reel) {
+  const ctx = document.getElementById(id).getContext('2d');
+  let p = 0;
+  function step() { drawGrid(ctx, reel[p][0], 6, EROWS, ECOLS); const ms = reel[p][1]; p = (p+1) % reel.length; setTimeout(step, ms); }
+  step();
+}
+reelLoop('sAtk', SIL_ATK);
+reelLoop('sHit', SIL_HIT);
+reelLoop('sDie', SIL_DIE);
+document.body.style.borderTop = '10px solid #00ff00';
 const ctxH = document.getElementById('vHero').getContext('2d');
 let ph = 0;
 setInterval(() => { ph = (ph+1) % 2; drawGrid(ctxH, IDLE[ph], 6); }, 440);
