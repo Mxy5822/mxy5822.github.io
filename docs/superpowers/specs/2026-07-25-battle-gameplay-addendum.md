@@ -31,7 +31,7 @@ Unlocks (one per boss victory, RPG archetype first, themed second):
 | Fan Out | Alert Storm | 3 | AoE: ~10 dmg to all targets |
 | Rollback | The Cascade | 3 | heal 30 + cleanse own debuffs |
 | Root Cause | The Silent Failure | 3 | ~22 dmg; ignores evasion/stealth, reveals hidden, bonus vs marked |
-| Ship It | Imposter Syndrome (mid-fight, at 50% boss HP) | 5 | finisher, ~60 dmg |
+| Conviction | Imposter Syndrome (mid-fight, at 50% boss HP) | 5 | enhance: doubles all effects of the other abilities (damage, healing, buff/debuff strength); usable only at ≤25% hero HP (activation gate — persists to end of battle even if healed above the line); transforms the hero, hair fully gold |
 
 Ability names are owner-approved creative trait names (not project names). Each ability's inspect panel carries a one-line "forged from: [case study]" link so the roster mapping survives the renaming.
 
@@ -46,7 +46,7 @@ Ability names are owner-approved creative trait names (not project names). Each 
 1. **Alert Storm** (kit: starting four). Real bat 60 HP, fakes 8 HP each. All ten stitch their mouths shut between "scream windows"; during a scream all ten open their mouths but only the real one screams red. Hitting a fake reshuffles the swarm. Any-pattern: Attack chips fakes down. Streamlined: Critical Thinking (extends the scream window) → Debug the red screamer (the mark persists after mouths close) → focus fire. Victory forges **Fan Out** — the tool the fight made you want.
 2. **The Cascade** (+ Fan Out). Six nodes, 25 HP each; the pulse lights nodes head→tail; a completed loop fires a 25-dmg retry storm. Killing nodes shortens the chain. Any-pattern: burst nodes, eat storms. Streamlined: Debug the lit node — a debugged node cannot pass the pulse, breaking the loop by hand. Victory forges **Rollback**, arriving exactly when fights get long enough to need sustain.
 3. **The Silent Failure** (+ Rollback). 140 HP; cycles body ↔ empty-armor untargetable phase; strikes from invisibility for 18. Any-pattern: hit the body windows, Rollback through the unseen hits. Streamlined: Debug it before it vanishes — the mark's motes betray its position and the DoT ticks while it hides. Victory forges **Root Cause**.
-4. **Imposter Syndrome** (near-full kit). 180 HP. Recap phases: swarm-clones itself (the mark/reveal tools answer), runs a corrupt pulse (Debug breaks it), vanishes (Root Cause rips it back), and mirrors the hero's last special back as a weaker glitchy copy. At 50% HP it degenerates into glitch-copy spam and **Ship It unlocks mid-fight**; raw damage can still finish it — Ship It is catharsis, not a requirement.
+4. **Imposter Syndrome** (near-full kit). 180 HP. Recap phases: swarm-clones itself (the mark/reveal tools answer), runs a corrupt pulse (Debug breaks it), vanishes (Root Cause rips it back), and mirrors the hero's last special back as a weaker glitchy copy. At 50% HP it degenerates into glitch-copy spam and **Conviction unlocks mid-fight**; raw damage can still finish it — Conviction is catharsis, not a requirement. The design beat: the answer to Imposter Syndrome arrives when the hero is at his lowest (≤25% HP) and doubles everything he already knew how to do.
 
 ## Case-study unlock channel (deviation from base spec)
 
@@ -62,7 +62,7 @@ All names, slugs, and flavor text still pass the base spec's constraint-2 review
 
 Prototype sprites for the hero (idle, attack, buff, cast-debuff, hit, KO) and all four bosses (models + signature idles: glitch, vanish cycle, scream cycle, pulse cycle) exist under `docs/battle-prototypes/` as self-contained HTML labs. Still to produce during S6:
 
-- Hero: Power Through, Fan Out, Rollback, Root Cause (all DONE 2026-07-25, in `hero-battle.html`); Ship It animation.
+- Hero: Power Through, Fan Out, Rollback, Root Cause, Conviction — ALL DONE 2026-07-25, in `hero-battle.html`. Conviction's gold form is a reusable remap (`goldHairOf`): while enhanced, apply it to every pose so the transform persists through attacks and casts.
 - Each boss: attack, hit, death frames.
 - Per-spell impact VFX rendered on top of the enemy (owner decision 2026-07-25): each spell gets its own overlay animation at the target; the enemy itself only flashes/flinches. Build these alongside the boss hit frames.
 
@@ -72,3 +72,4 @@ Prototype sprites for the hero (idle, attack, buff, cast-debuff, hit, KO) and al
 2. Spell names are creative trait names, not roster-entry names (owner decision 2026-07-25); roster mapping preserved via "forged from" links.
 3. Case-study unlocks move from per-cast to per-victory (plus first-cast for the starting three).
 4. Progression added: per-victory ability unlock + stat rider.
+5. "Ship It" redesigned and renamed **Conviction** (owner decision 2026-07-25): the ~60-dmg finisher became a desperation enhance — ≤25% HP activation gate, 2x all other ability effects, persists to battle end, gold-hair transform.

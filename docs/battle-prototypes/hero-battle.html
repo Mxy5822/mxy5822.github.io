@@ -24,6 +24,7 @@
   <div class="cell"><canvas id="animFan" width="288" height="360"></canvas><div>fan out loop</div></div>
   <div class="cell"><canvas id="animRbk" width="288" height="360"></canvas><div>rollback loop</div></div>
   <div class="cell"><canvas id="animRoot" width="288" height="360"></canvas><div>root cause loop</div></div>
+  <div class="cell"><canvas id="animConv" width="288" height="360"></canvas><div>conviction loop</div></div>
 </div>
 <div id="report"></div>
 <div id="err"></div>
@@ -519,6 +520,45 @@ const ROOT = [
   buildFrame({o:1, arm:'grip'})
 ];
 const ROOT_MS = [200, 170, 210, 70, 60, 220, 120, 110, 200];
+
+// CONVICTION: the desperation transform (usable at <=25% HP; doubles all other
+// ability effects until battle end) — the answer to Imposter Syndrome. Power
+// surge over two gold flash frames, then the reveal: hair remapped COMPLETELY
+// GOLD with a rising aura, settling into the transformed idle. goldHairOf is
+// zone-bounded because the hair letters (E/F) are also the eye pupils — never
+// remap them globally.
+function goldHairOf(grid, hd = 0) {
+  const map = { E:'W', F:'V', G:'U', H:'X' };
+  return grid.map((row, r) => row.map((v, c) => {
+    if (!v) return v;
+    const rr = r - hd;
+    const topBlock = rr >= 4 && rr <= 6 && c >= 21 && c <= 33;
+    const leftTwist = c >= 19 && c <= 20 && rr >= 5 && rr <= 16;   // the face twist
+    const rightTwist = c >= 30 && c <= 33 && rr >= 5 && rr <= 17;
+    if ((topBlock || leftTwist || rightTwist) && map[v]) return map[v];
+    // thin hair shapes are ALL outline after the auto-outline pass — the letter
+    // remap never sees them, so convert the outline cells themselves:
+    if (v === 'e') {
+      if (rr === 4 && c >= 22 && c <= 32) return 'V';               // spike tips
+      if (rr >= 5 && rr <= 6 && c >= 22 && c <= 32) return 'U';     // block grooves
+      if (leftTwist) return 'V';                                    // face twist body
+    }
+    return v;
+  }));
+}
+const CONV_GRIP = buildFrame({o:2, arm:'grip'});
+const CONV_GOLD0 = goldHairOf(buildFrame({o:0}), 0);
+const CONV_GOLD1 = goldHairOf(buildFrame({o:1}), 1);
+const CONV = [
+  buildFrame({o:1, arm:'grip'}),
+  tintOf(CONV_GRIP, 'W', 'X', 3),
+  tintOf(CONV_GRIP, 'X', 'L', 3),
+  overlay(CONV_GOLD0, [[40,12,'W'],[46,38,'X'],[30,38,'W'],[22,12,'X'],[50,16,'W'],[12,36,'X']]),
+  overlay(CONV_GOLD1, [[32,10,'X'],[38,40,'W'],[20,36,'L'],[16,14,'W'],[44,42,'X'],[3,28,'W']]),
+  overlay(CONV_GOLD0, [[10,18,'X'],[14,34,'W'],[24,8,'L'],[2,26,'W'],[28,42,'X'],[18,10,'W']]),
+  CONV_GOLD1
+];
+const CONV_MS = [220, 140, 140, 160, 160, 160, 900];
 // hit: white flash (recoiled) -> recoil hold -> back to idle
 const HIT_RECOIL = buildFrame({o:1, xo:2, headX:1, arm:'guard'});
 const HIT = [flashOf(HIT_RECOIL), HIT_RECOIL, buildFrame({o:0, xo:1, arm:'guard'}), IDLE[0]];
@@ -587,6 +627,8 @@ looper('animRbk', RBK.map((f,i) => [f, RBK_MS[i]]).concat([[IDLE[0], 500]]));
 addStatic(RBK[2], 'r2 ring'); addStatic(RBK[5], 'r5 shimmer');
 looper('animRoot', ROOT.map((f,i) => [f, ROOT_MS[i]]).concat([[IDLE[0], 500]]));
 addStatic(ROOT[2], 'rc2 hilt hold'); addStatic(ROOT[5], 'rc5 reveal ring');
+looper('animConv', CONV.map((f,i) => [f, CONV_MS[i]]).concat([[IDLE[0], 600]]));
+addStatic(CONV[2], 'cv2 surge peak'); addStatic(CONV[6], 'cv6 gold form');
 
 // self-check
 let cells = ATK.concat(HIT).concat(KO).map(f => f.flat().filter(x => x !== null).length);
