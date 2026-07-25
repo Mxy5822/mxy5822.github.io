@@ -13,3 +13,4 @@ These are the working source of truth for S6 asset production. The grids and pal
 | `boss-imposter-syndrome.html` | Imposter Syndrome final (palette-remapped dark mirror of the hero with glitch tear frames) |
 
 Design context: `../superpowers/specs/2026-07-25-battle-gameplay-addendum.md`.
+Full build method (architecture, traps, verification pipeline, how to extend): `BUILDING.md` in this directory.
