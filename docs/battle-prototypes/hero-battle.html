@@ -22,6 +22,7 @@
   <div class="cell"><canvas id="animCast" width="288" height="360"></canvas><div>cast loop</div></div>
   <div class="cell"><canvas id="animPwr" width="288" height="360"></canvas><div>power through loop</div></div>
   <div class="cell"><canvas id="animFan" width="288" height="360"></canvas><div>fan out loop</div></div>
+  <div class="cell"><canvas id="animRbk" width="288" height="360"></canvas><div>rollback loop</div></div>
 </div>
 <div id="report"></div>
 <div id="err"></div>
@@ -469,6 +470,27 @@ const FAN = [
   buildFrame({o:1, arm:'grip'})
 ];
 const FAN_MS = [180, 220, 80, 110, 130, 150, 200];
+
+// ROLLBACK: restore-from-checkpoint — a gold scanline ring sweeps UP the body
+// while purple debuff motes are flung off (the cleanse), finishing on one
+// full-body gold shimmer beat, then recover
+function ringPts(r) {
+  const pts = [];
+  for (let c = 15; c <= 33; c += 2) pts.push([r, c, (c % 4 === 1) ? 'W' : 'X']);
+  for (let c = 16; c <= 34; c += 2) pts.push([r + 1, c, (c % 4 === 0) ? 'X' : 'W']);
+  return pts;
+}
+const RBK_BASE = buildFrame({o:0});
+const RBK = [
+  buildFrame({o:1}),
+  overlay(RBK_BASE, ringPts(48).concat([[30,11,'j'],[27,37,'j']])),
+  overlay(RBK_BASE, ringPts(38).concat([[28,8,'j'],[25,40,'j'],[49,24,'L']])),
+  overlay(RBK_BASE, ringPts(26).concat([[26,5,'k'],[23,43,'k'],[39,20,'L']])),
+  overlay(RBK_BASE, ringPts(14).concat([[27,28,'L']])),
+  tintOf(RBK_BASE, 'W', 'X', 4),
+  buildFrame({o:1})
+];
+const RBK_MS = [200, 130, 130, 130, 130, 140, 220];
 // hit: white flash (recoiled) -> recoil hold -> back to idle
 const HIT_RECOIL = buildFrame({o:1, xo:2, headX:1, arm:'guard'});
 const HIT = [flashOf(HIT_RECOIL), HIT_RECOIL, buildFrame({o:0, xo:1, arm:'guard'}), IDLE[0]];
@@ -533,6 +555,8 @@ looper('animPwr', PWR.map((f,i) => [f, PWR_MS[i]]).concat([[IDLE[0], 500]]));
 addStatic(PWR[1], 'p1 windup'); addStatic(PWR[3], 'p3 crash');
 looper('animFan', FAN.map((f,i) => [f, FAN_MS[i]]).concat([[IDLE[0], 500]]));
 addStatic(FAN[1], 'f1 charge'); addStatic(FAN[4], 'f4 wave2');
+looper('animRbk', RBK.map((f,i) => [f, RBK_MS[i]]).concat([[IDLE[0], 500]]));
+addStatic(RBK[2], 'r2 ring'); addStatic(RBK[5], 'r5 shimmer');
 
 // self-check
 let cells = ATK.concat(HIT).concat(KO).map(f => f.flat().filter(x => x !== null).length);
