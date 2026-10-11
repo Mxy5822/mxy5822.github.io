@@ -65,12 +65,12 @@ img { max-width: 100%; height: auto; display: block; }
 .list-title { margin: 44px 0 12px; font-size: 16px; font-weight: 700; }
 .list-title span { margin-left: 6px; font-size: 13px; font-weight: 400; color: var(--muted); }
 .career { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.career li { padding: 16px 18px; background: #fff; border: 1px solid var(--line); border-radius: 12px; }
-.career li:first-child { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+.career > li { padding: 16px 18px; background: #fff; border: 1px solid var(--line); border-radius: 12px; }
+.career > li:first-child { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
 .when { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 .co { margin-left: 10px; color: var(--ink); font-size: 14px; font-weight: 700; }
 .org { margin-top: 4px; font-weight: 700; }
-.what { color: var(--muted); font-size: 13.5px; }
+.what { margin-top: 4px; padding-left: .7em; list-style: "- "; color: var(--muted); font-size: 13.5px; line-height: 1.65; }
 .career-note { margin-top: 10px; color: var(--muted); font-size: 12.5px; }
 
 /* sections */
