@@ -114,8 +114,9 @@ img { max-width: 100%; height: auto; display: block; }
 .tag { color: var(--accent); font-weight: 700; font-size: 16px; margin-bottom: 12px; }
 .tag span { display: block; color: var(--muted); font-size: 13px; font-weight: 400; }
 .p-visual > img { border-radius: 12px; border: 1px solid var(--line); }
-.p-visual .waid-logo { width: 96px; border: 0; border-radius: 0; margin-bottom: 12px; }
-.p-visual .shot { width: 100%; max-width: 260px; }
+.app-show { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 22px 18px 24px; background: #ecedfb; border: 1px solid var(--line); border-radius: 12px; }
+.app-show .waid-logo { width: 72px; }
+.app-show .shot { width: 100%; max-width: 240px; border-radius: 10px; box-shadow: 0 10px 24px rgba(32, 39, 43, .14); }
 .p-body h3 { font-size: 23px; font-weight: 900; margin-bottom: 14px; }
 .meta { display: grid; grid-template-columns: 70px 1fr; gap: 7px 16px; padding: 14px 16px; background: var(--tint); border-radius: 10px; font-size: 14px; }
 .meta dt { color: var(--muted); }
@@ -152,13 +153,15 @@ img { max-width: 100%; height: auto; display: block; }
   .career { grid-template-columns: 1fr; }
   .project { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .p-visual { position: static; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; }
-  .p-visual > img { max-width: min(420px, 100%); }
+  .p-visual > img, .app-show { width: 100%; max-width: 420px; }
   .p-visual .tag { width: 100%; margin-bottom: 0; }
 }
 @media (max-width: 640px) {
   .intro { padding-top: 32px; }
   .intro-grid { grid-template-columns: 1fr; gap: 24px; }
   .photo img { width: 160px; }
+  .app-show .waid-logo { width: 60px; }
+  .app-show .shot { max-width: 220px; }
   .strengths, .gallery, .certs { grid-template-columns: 1fr; }
   .skills { grid-template-columns: 1fr; }
   .skills dt { padding-bottom: 0; border-bottom: 0; }
