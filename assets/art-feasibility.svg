@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" font-family="'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect width="480" height="280" fill="#f1f3e8"/>
+  <!-- map -->
+  <rect x="26" y="28" width="250" height="224" rx="10" fill="#ffffff" stroke="#d4d9c3" stroke-width="2"/>
+  <g stroke="#e6eadb" stroke-width="1.5">
+    <path d="M26 84h250M26 140h250M26 196h250M88 28v224M150 28v224M212 28v224"/>
+  </g>
+  <path d="M40 228c40-30 70-10 110-40s60-60 116-70" fill="none" stroke="#b9d3e6" stroke-width="10" stroke-linecap="round"/>
+  <path d="M104 86l78-14 34 62-62 40-58-26z" fill="#26706c" fill-opacity=".22" stroke="#26706c" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="150" cy="118" r="9" fill="#26706c"/>
+  <circle cx="150" cy="118" r="3.5" fill="#ffffff"/>
+  <path d="M104 86l-26-24M216 134l40 20" stroke="#e0a34a" stroke-width="2" stroke-dasharray="5 5"/>
+  <!-- layers -->
+  <g font-size="12" font-weight="700">
+    <rect x="300" y="34" width="154" height="30" rx="8" fill="#ffffff" stroke="#d4d9c3"/><circle cx="316" cy="49" r="5" fill="#26706c"/><text x="330" y="53" fill="#20272b">필지·건물</text>
+    <rect x="300" y="72" width="154" height="30" rx="8" fill="#ffffff" stroke="#d4d9c3"/><circle cx="316" cy="87" r="5" fill="#e0a34a"/><text x="330" y="91" fill="#20272b">조례 이격거리</text>
+    <rect x="300" y="110" width="154" height="30" rx="8" fill="#ffffff" stroke="#d4d9c3"/><circle cx="316" cy="125" r="5" fill="#5b8fbf"/><text x="330" y="129" fill="#20272b">계통 정보</text>
+    <rect x="300" y="148" width="154" height="30" rx="8" fill="#ffffff" stroke="#d4d9c3"/><circle cx="316" cy="163" r="5" fill="#f2c94c"/><text x="330" y="167" fill="#20272b">일사량</text>
+  </g>
+  <!-- finance -->
+  <rect x="300" y="190" width="154" height="62" rx="8" fill="#20272b"/>
+  <g fill="#7fc2b3"><rect x="314" y="226" width="12" height="16"/><rect x="332" y="216" width="12" height="26"/><rect x="350" y="208" width="12" height="34"/><rect x="368" y="200" width="12" height="42"/></g>
+  <text x="392" y="216" font-size="11" fill="#ffffff" font-weight="700">IRR</text>
+  <text x="392" y="232" font-size="11" fill="#ffffff" font-weight="700">NPV</text>
+  <text x="392" y="248" font-size="11" fill="#ffffff" font-weight="700">DSCR</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" font-family="'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect width="480" height="280" fill="#eef1f6"/>
+  <!-- server -->
+  <rect x="34" y="42" width="170" height="196" rx="12" fill="#1c2733"/>
+  <g font-size="12" font-weight="700" fill="#dfe8f1">
+    <rect x="48" y="58" width="142" height="34" rx="6" fill="#2a3847"/><circle cx="64" cy="75" r="5" fill="#46c08f"/><text x="78" y="79">WEB / WAS</text>
+    <rect x="48" y="100" width="142" height="34" rx="6" fill="#2a3847"/><circle cx="64" cy="117" r="5" fill="#46c08f"/><text x="78" y="121">PostgreSQL</text>
+    <rect x="48" y="142" width="142" height="34" rx="6" fill="#2a3847"/><circle cx="64" cy="159" r="5" fill="#46c08f"/><text x="78" y="163">수집 서비스</text>
+    <rect x="48" y="184" width="142" height="34" rx="6" fill="#2a3847"/><circle cx="64" cy="201" r="5" fill="#46c08f"/><text x="78" y="205">메일 자동화</text>
+  </g>
+  <!-- arrow -->
+  <path d="M214 140h70" stroke="#26706c" stroke-width="3" stroke-dasharray="7 6"/>
+  <path d="M280 131l12 9-12 9" fill="none" stroke="#26706c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="222" y="108" width="54" height="20" rx="10" fill="#ffffff" stroke="#26706c" stroke-width="1.5"/>
+  <text x="249" y="122" font-size="11" text-anchor="middle" fill="#26706c" font-weight="700">매일 새벽</text>
+  <!-- cloud -->
+  <path d="M330 168h90a30 30 0 0 0 0-60 42 42 0 0 0-80-12 34 34 0 0 0-10 72z" fill="#ffffff" stroke="#9fb2c8" stroke-width="2.5"/>
+  <rect x="356" y="118" width="40" height="32" rx="6" fill="#26706c"/>
+  <path d="M364 118v-8a12 12 0 0 1 24 0v8" fill="none" stroke="#26706c" stroke-width="4"/>
+  <circle cx="376" cy="132" r="4" fill="#ffffff"/>
+  <!-- verify -->
+  <rect x="318" y="190" width="132" height="44" rx="10" fill="#ffffff" stroke="#9fb2c8" stroke-width="1.5"/>
+  <path d="M332 212l8 8 14-16" fill="none" stroke="#46c08f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="362" y="209" font-size="11" fill="#1c2733" font-weight="700">내려받아 대조</text>
+  <text x="362" y="225" font-size="10.5" fill="#5f6f80">복원 시험</text>
+</svg>
