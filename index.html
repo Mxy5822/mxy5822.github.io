@@ -4,399 +4,298 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>김민기 포트폴리오</title>
-<meta name="description" content="업무 시스템 개발자 김민기의 포트폴리오. 업무 자동화, 서버 운영과 모니터링, 데이터 표준 경험.">
+<meta name="description" content="Software Developer 김민기의 포트폴리오. 발전소 관제·업무 자동화, 서버 운영, 사내 ERP·업무시스템, 웹사이트 구축, 개인 프로젝트 WAID.">
 <meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23143b36'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2346c08f'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2326706C'/%3E%3Ctext x='16' y='22' font-size='16' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 <a class="skip" href="#main">본문으로 이동</a>
 
-<header class="top">
-  <a class="brand" href="#intro">김민기<span>업무 시스템 개발자</span></a>
-  <nav aria-label="섹션">
-    <a href="#projects">프로젝트</a>
-    <a href="#approach">일하는 방식</a>
-    <a href="#career">경력·교육</a>
-    <a href="#skills">기술</a>
-    <a href="#certs">자격증</a>
-  </nav>
+<div class="sheet">
+<header class="sheet-head">
+  <span class="sheet-title">포트폴리오</span>
+  <span class="sheet-meta">김민기 · 2026.10</span>
 </header>
 
 <main id="main">
 
-<section class="intro" id="intro">
-  <div class="intro-text">
-    <p class="kicker">업무 시스템 개발 · 서버 운영 · 2023년부터</p>
-    <h1>현업이 손으로 하던 일을<br>시스템으로 옮깁니다.</h1>
-    <p>에너지 기업 경영지원부에서 사내 업무 시스템과 서버를 혼자 개발하고 운영합니다. 운영 중에 생긴 문제는 로그와 데이터로 원인까지 확인합니다.</p>
-    <p class="intro-links"><a class="btn" href="#projects">프로젝트 보기</a><a class="btn line" href="https://github.com/laekhole">GitHub</a></p>
+<section class="profile" aria-labelledby="name">
+  <div class="profile-id">
+    <h1 id="name">김민기</h1>
+    <p class="profile-role">Software Developer</p>
+    <p class="profile-links"><a href="https://github.com/laekhole">GitHub ↗</a></p>
   </div>
-  <aside class="board" aria-label="맡고 있는 일">
-    <p class="board-head"><span>맡고 있는 일</span><span>2026.10 기준</span></p>
+  <div class="profile-body">
+    <p class="headline">현업의 문제를 풀고<br>일하는 방식을 바꾸는 개발자</p>
+    <p class="profile-note">구현에는 Claude Code·Codex를 함께 씁니다. 무엇을 만들지와 반영 여부는 제가 정하고, 배포 전에는 서비스 상태·로그·DB·테스트로 결과를 직접 확인합니다.</p>
+
+    <h2 class="list-title">경력사항 <span>정규직</span></h2>
+    <dl class="career">
+      <dt>2026.07 - 현재</dt>
+      <dd><strong>에너지 기업 · 선임</strong><span>사내 시스템 개발·운영, 관제·실적 자동화, 서버 운영</span></dd>
+      <dt>2024.04 - 2026.06</dt>
+      <dd><strong>IT 서비스 기업(분할 신설 법인) · 주임</strong><span>ERP 구축 SI, 에너지 계열사 시스템 개발·연동</span></dd>
+      <dt>2023.12 - 2025.09</dt>
+      <dd><strong>IT 서비스 기업 · 사원</strong><span>ERP 구축 SI, 총무 모듈 개발</span></dd>
+    </dl>
+    <p class="career-note">물적분할 후 프로젝트 소속 유지로 두 법인에 동시 재적. 2026.07 그룹 내 에너지 계열사로 전배.</p>
+
+    <nav class="toc" aria-label="목차">
+      <a href="#p1">01 발전소 관제·자동화</a>
+      <a href="#p2">02 서버 운영·백업</a>
+      <a href="#p3">03 사내 ERP</a>
+      <a href="#p4">04 웹사이트 구축</a>
+      <a href="#p5">05 사업성 검토</a>
+      <a href="#p6">06 WAID · 개인</a>
+      <a href="#certs">자격증</a>
+      <a href="#edu">교육</a>
+    </nav>
+  </div>
+</section>
+
+<article class="project" id="p1" aria-labelledby="p1-t">
+  <p class="tag">Project 01</p>
+  <div class="project-body">
+    <h2 id="p1-t">발전소 통합관제·업무 자동화</h2>
+    <dl class="meta">
+      <dt>사업내용</dt><dd>발전소 운영정보 수집·관제, 월간 실적 자동화 및 입찰공고 조회</dd>
+      <dt>기간</dt><dd>2026.02 - 현재 (관제) / 2026.08 - 09 (실적 자동화 개발)</dd>
+      <dt>기술스택</dt><dd>Python · FastAPI · PostgreSQL · SQLite · Selenium · SMTP/POP3</dd>
+      <dt>현재상태</dt><dd>관제·실적: O&amp;M 팀 사용 중 / 공고 조회: 구현</dd>
+    </dl>
+    <p class="role-title">주요역할 및 기능</p>
+    <h3>1) 발전소 크롤링·메시징 서비스</h3>
     <ul>
-      <li><a href="#p-monitor"><i class="dot ok" aria-hidden="true"></i><span class="b-name">발전소 관제 시스템</span><span class="b-state">운영 중</span></a></li>
-      <li><a href="#p-mail"><i class="dot ok" aria-hidden="true"></i><span class="b-name">실적 메일 수집·적재 자동화</span><span class="b-state">운영 중</span></a></li>
-      <li><a href="#p-server"><i class="dot ok" aria-hidden="true"></i><span class="b-name">업무 서버 운영과 백업</span><span class="b-state">운영 중</span></a></li>
-      <li><a href="#p-biz"><i class="dot dev" aria-hidden="true"></i><span class="b-name">경영지원 업무 시스템과 데이터 표준</span><span class="b-state">개발·운영</span></a></li>
-      <li><a href="#p-prefs"><i class="dot dev" aria-hidden="true"></i><span class="b-name">주소 기반 사업성 사전 검토</span><span class="b-state">개발 중</span></a></li>
-      <li><a href="#p-waid"><i class="dot own" aria-hidden="true"></i><span class="b-name">waid</span><span class="b-state">개인 프로젝트</span></a></li>
+      <li>외부 모니터링 사이트 JSON·HTML 수집·정규화, PostgreSQL 저장</li>
+      <li>중복 수집 방지·데이터 유효 시간 확인, 텔레그램 조회·이상 알림 연동</li>
     </ul>
-  </aside>
-</section>
+    <h3>2) 운영 현황 대시보드·알림 기준</h3>
+    <ul>
+      <li>발전소·인버터 단위 조회 API와 웹·TV 관제 화면 구현</li>
+      <li>매일 아침 오던 오탐의 원인(포털의 1시간 단위 갱신) 확인 후 알림 시작을 일출 2시간 뒤로 조정</li>
+      <li>잠깐 회복해도 당일 멈춘 시간을 합산하는 판정, 1시간 넘는 수집 실패만 오프라인 표시</li>
+    </ul>
+    <h3>3) 월간 실적 자동화</h3>
+    <ul>
+      <li>정기 요청 → 회신 분류 → 첨부(Excel·PDF·이미지) 추출·검증 → DB 적재 연결</li>
+      <li>수탁사별 양식 규칙의 DB 관리, 발전 시작일 기준 일할(날짜 비례) 계산, 중복 적재 방지·파일 단위 롤백</li>
+      <li>미회신 추적, 낮은 분류 확신도·적재 실패의 검토 상태 전환</li>
+    </ul>
+    <h3>4) 신규 사업 발굴을 위한 입찰공고 조회</h3>
+    <ul>
+      <li>나라장터 API·지자체 게시판 공고 수집, 사업본부의 신규 사업 후보 탐색 지원</li>
+      <li>자연어 질문을 검색 조건으로 바꾸는 검색, 로컬 임베딩 RAG 실험</li>
+    </ul>
+  </div>
+</article>
 
-<section class="block" id="projects">
-  <h2><span class="num">01</span>프로젝트</h2>
-    <article class="project" id="p-monitor">
-      <div class="p-side">
-        <p class="p-no">P01</p>
-        <p class="p-state ok">운영 중</p>
-        <p class="p-period">2026.02 ~ 현재</p>
-        <ul class="p-stack"><li>Python</li><li>Selenium</li><li>FastAPI</li><li>PostgreSQL</li></ul>
-      </div>
-      <div class="p-main">
-        <h3>발전소 관제 시스템</h3>
-        <p class="tagline">여러 모니터링 포털을 모아 보는 발전소 관제 화면과 알림</p>
-        <p>발전소 운영·유지보수(O&amp;M) 담당자가 여러 모니터링 사이트를 돌며 확인하던 발전소 상태를 한곳에 모았습니다. 발전소와 인버터 단위로 보고, 이상이 생기면 텔레그램으로 알립니다.</p>
-        <details>
-          <summary>자세히 보기</summary>
-          <dl class="meta">
-            <dt>역할</dt><dd>수집 서버·화면·알림 개발과 운영</dd>
-    <dt>사용자</dt><dd>O&amp;M 팀</dd>
-    <dt>기술</dt><dd>Python, Selenium, requests, FastAPI, PostgreSQL, Nginx, systemd, crontab, Telegram Bot</dd>
-          </dl>
-          <ol class="flow"><li>모니터링 포털</li><li>수집 서버</li><li>PostgreSQL</li><li>웹·TV 관제 화면</li><li>텔레그램 알림</li></ol>
-          <p>발전소 운영·유지보수(O&amp;M) 담당자는 이상 여부를 보려고 제조사마다 다른 모니터링 사이트를 하나씩 열어야 했습니다. 발전소 합계에서 이상이 보여도 어느 인버터의 문제인지는 다시 찾아야 했습니다.</p>
-          <h3>수집</h3>
-          <ul>
-            <li>포털별 JSON·HTML 응답을 수집해 발전소와 인버터 단위로 정리해 저장</li>
-            <li>사내 업무 솔루션이 외부 데이터를 받지 못해 수집 서버를 따로 두고, Nginx 리버스 프록시로 업무 시스템과 연결</li>
-            <li>해가 떠 있는 시간에만 수집하고, 앞 회차가 끝나지 않았으면 다음 회차를 건너뜀</li>
-          </ul>
-          <h3>화면과 알림</h3>
-          <ul>
-            <li>집계 웹, TV 관제 화면, 텔레그램 조회</li>
-            <li>이상이 처음 생길 때와 회복될 때만 알림을 보내 같은 알림이 반복되지 않게 함</li>
-          </ul>
-          <h3>알림 기준 다듬기</h3>
-          <ul>
-            <li>거의 매일 아침 오던 장애 알림을 발송 기록과 수집 이력으로 추적. 일부 포털이 값을 1시간마다 갱신해 발전 중에도 0kWh로 보인 것이 원인이었음</li>
-            <li>알림 시작을 일출 2시간 뒤로 늦추고, 그 사이에 잡힌 이상은 30분 단위 정기 알림에서 다시 확인</li>
-            <li>잠깐 회복해도 그날 멈춘 시간을 합산해 판정, 수집이 1시간 넘게 실패할 때만 오프라인으로 표시</li>
-          </ul>
-        </details>
-      </div>
-    </article>
-    <article class="project" id="p-mail">
-      <div class="p-side">
-        <p class="p-no">P02</p>
-        <p class="p-state ok">운영 중</p>
-        <p class="p-period">2026.08 ~ 2026.09 개발</p>
-        <ul class="p-stack"><li>Python</li><li>SMTP·POP3</li><li>pandas</li><li>PostgreSQL</li></ul>
-      </div>
-      <div class="p-main">
-        <h3>실적 메일 수집·적재 자동화</h3>
-        <p class="tagline">매월 실적 요청부터 회신 첨부 적재까지 처리하는 자동화</p>
-        <p>발전소 실적을 매달 메일로 요청하고, 회신 첨부를 검증해 DB에 넣습니다. 담당자는 적재 결과와 예외 건만 확인합니다.</p>
-        <details>
-          <summary>자세히 보기</summary>
-          <dl class="meta">
-            <dt>역할</dt><dd>설계·개발·운영</dd>
-    <dt>사용자</dt><dd>O&amp;M 팀 (매월)</dd>
-    <dt>기술</dt><dd>Python, SMTP·POP3, pandas, SQLAlchemy, PostgreSQL, systemd</dd>
-          </dl>
-          <ol class="flow"><li>요청 메일 발송</li><li>회신 수신·분류</li><li>첨부 추출·검증</li><li>DB 적재</li><li>예외 검토</li></ol>
-          <p>발전소 운영 사무를 위탁받은 회사(사무수탁사)들이 보내는 실적 엑셀을 담당자가 하나씩 열어, 날짜 비례 계산(일할 계산)을 하고 시스템에 직접 입력했습니다. 수탁사마다 양식이 달랐고, 일부는 요청해야만 회신을 보냈습니다.</p>
-          <h3>요청</h3>
-          <ul>
-            <li>매월 정한 날짜에 요청 메일을 자동 발송하고 미회신 발전소를 따로 추적</li>
-            <li>DB 잠금과 발송 이력으로 같은 달 요청이 두 번 나가지 않게 함</li>
-          </ul>
-          <h3>수신과 분류</h3>
-          <ul>
-            <li>POP3로 회신을 받아 규칙으로 먼저 분류하고, 애매한 경우에만 AI로 보완</li>
-            <li>메일 서버 인증이 연속으로 실패하면 시도를 멈추고 텔레그램으로 알림</li>
-          </ul>
-          <h3>첨부 처리와 적재</h3>
-          <ul>
-            <li>Excel·PDF·이미지에서 실적을 뽑아 검증한 뒤 적재</li>
-            <li>수탁사별 양식 규칙을 DB 표에 두어, 양식이 바뀌면 설정만 변경</li>
-            <li>발전 시작일(상업운전개시일) 기준 일할 계산을 적재 단계에서 처리하고, 같은 자료가 다시 와도 중복 저장하지 않음</li>
-            <li>파일 단위 롤백, 실패 사유는 엑셀로 내려받기</li>
-          </ul>
-          <h3>예외와 검증</h3>
-          <ul>
-            <li>분류가 애매하거나 적재 확인에 실패한 건은 검토 목록으로 넘김</li>
-            <li>운영 전에 같은 메일을 다시 처리해도 결과가 같은지, 저장값이 집계와 맞는지 대조</li>
-          </ul>
-        </details>
-      </div>
-    </article>
-    <article class="project" id="p-server">
-      <div class="p-side">
-        <p class="p-no">P03</p>
-        <p class="p-state ok">운영 중</p>
-        <p class="p-period">2025.09 ~ 현재</p>
-        <ul class="p-stack"><li>Rocky Linux</li><li>systemd</li><li>Nginx</li><li>restic</li></ul>
-      </div>
-      <div class="p-main">
-        <h3>업무 서버 운영과 백업</h3>
-        <p class="tagline">업무 시스템 서버의 서비스 운영과 백업 체계</p>
-        <p>Rocky Linux 서버에서 업무 시스템과 수집·자동화 서비스를 운영합니다. 백업 체계를 만들고, 한 달 반 뒤 실제 로그와 대조해 실패해도 드러나지 않던 지점을 찾았습니다.</p>
-        <details>
-          <summary>자세히 보기</summary>
-          <dl class="meta">
-            <dt>역할</dt><dd>서버 운영, 서비스 추가, 백업 (초기 Linux 세팅은 동료 담당)</dd>
-    <dt>기술</dt><dd>Rocky Linux, Nginx, systemd, crontab, firewalld, SELinux, PostgreSQL, restic, Git</dd>
-          </dl>
-          <ol class="flow"><li>서버 경로·DB 덤프</li><li>restic 암호화 증분 백업</li><li>클라우드 저장소</li><li>내려받아 대조</li><li>실패 시 메일</li></ol>
-          <p>사내 업무 시스템(WEB/WAS·PostgreSQL)과 관제·메일 자동화·내부 도구가 같은 서버에서 돌아갑니다. 초기 세팅 이후의 운영과 서비스 추가, 백업을 맡고 있습니다.</p>
-          <h3>서비스 운영</h3>
-          <ul>
-            <li>손으로 띄우던 백엔드를 systemd 서비스로 옮겨 재부팅이나 장애 뒤에도 자동으로 다시 뜨게 함</li>
-            <li>흩어진 스크립트를 역할별로 옮기면서 하드코딩된 경로와 SELinux 문제를 정리</li>
-            <li>방화벽 규칙은 실행 설정과 영구 설정이 같은지 확인한 뒤 반영</li>
-            <li>디스크 사용률이 96%까지 올랐을 때 점유 원인을 운영 데이터·실험 자료·백업으로 나눠 확인하고, 오래된 DB 백업을 정리해 73%로 낮춤</li>
-          </ul>
-          <h3>백업 구축</h3>
-          <ul>
-            <li>매일 새벽 애플리케이션·홈·설정 경로를 restic으로 암호화해 클라우드 저장소에 증분 백업</li>
-            <li>DB 덤프는 다시 내려받아 원본과 바이트 단위로 비교하고, 실패하면 메일 발송</li>
-            <li>구축 때 덤프를 새 DB에 복원해 보는 시험</li>
-          </ul>
-          <h3>한 달 반 뒤 재점검</h3>
-          <ul>
-            <li>야간 실행은 모두 성공으로 남아 있었지만, 스크립트와 문서를 실제 로그·저장소·디스크와 대조</li>
-            <li>이전 실행이 잠금을 풀지 않은 채 멈추면, 다음 실행이 로그 없이 정상 종료하는 문제 발견</li>
-            <li>상태 검사가 날짜를 보지 않아 어제 결과를 오늘의 성공으로 표시하는 문제 발견</li>
-            <li>정리 스크립트가 남은 임시 파일 이름 앞에 매일 '_'를 하나씩 더 붙이는 버그 발견. 이대로면 2027년 3월쯤 파일명 길이 한도에 닿아 Git 미러 백업이 멈춤</li>
-            <li>알림 상태 파일과 PostgreSQL 설정 파일이 백업에서 빠지는 것을 확인하고, 문제마다 수정안을 정리</li>
-          </ul>
-        </details>
-      </div>
-    </article>
-    <article class="project" id="p-biz">
-      <div class="p-side">
-        <p class="p-no">P04</p>
-        <p class="p-state dev">개발·운영</p>
-        <p class="p-period">2025.09 ~ 현재</p>
-        <ul class="p-stack"><li>AUDPlatform</li><li>JavaScript</li><li>PostgreSQL</li></ul>
-      </div>
-      <div class="p-main">
-        <h3>경영지원 업무 시스템과 데이터 표준</h3>
-        <p class="tagline">AUDPlatform 기반 영업·수주·주간회의 시스템과 표준 사전</p>
-        <p>상용 BI 플랫폼인 AUDPlatform 위에 사업기회·계약·수주 관리와 주간회의 기능을 만들고, 표준 사전과 명명 규칙으로 데이터 정의를 맞췄습니다.</p>
-        <details>
-          <summary>자세히 보기</summary>
-          <dl class="meta">
-            <dt>역할</dt><dd>업무 화면·SQL·데이터 구조, 외부 연동 (2026.03부터 개발 단독)</dd>
-    <dt>기술</dt><dd>AUDPlatform(상용 BI 플랫폼, 화면은 JavaScript), PostgreSQL, Python(개발 도구)</dd>
-          </dl>
-          <ol class="flow"><li>사업기회</li><li>계약</li><li>프로젝트</li><li>수주 실적</li></ol>
-          <p>물적분할 뒤 독립 시스템이 없던 에너지 계열사는 수주 실적과 발전소 자료를 엑셀로 모았습니다. 공급사가 플랫폼을 설치한 뒤부터 업무 화면과 데이터 구조, 외부 연동을 맡았습니다.</p>
-          <h3>영업에서 수주까지</h3>
-          <ul>
-            <li>사업기회가 계약과 프로젝트로 이어지는 관계와 상태 전이를 정리</li>
-            <li>계약 등록·삭제가 사업기회 진행상태와 선택 목록에 함께 반영되도록 DB에서 처리해, 화면 입력과 엑셀 업로드의 결과를 같게 함</li>
-            <li>계약 없이 저장된 프로젝트가 조회에서 빠지던 문제를 계약 번호 필수와 실제 계약 참조 제약으로 막음. 적용 전 이 테이블에 저장하는 화면을 모두 확인</li>
-          </ul>
-          <h3>데이터 표준</h3>
-          <ul>
-            <li>공공데이터 공통표준(7차)을 참고해 표준 단어·용어·도메인 사전과 명명 규칙을 문서로 정리</li>
-            <li>표준 사전 조회, 명명 규칙 검사, DDL 생성 도구를 만들어 개발 단계에서 확인</li>
-            <li>PostgreSQL 메타데이터를 표준 사전과 대조해 누락·변경 항목을 정리</li>
-          </ul>
-          <h3>주간회의</h3>
-          <ul>
-            <li>부서별 회의 자료를 웹에서 작성하고 버전·확정본으로 관리</li>
-            <li>구역 단위 편집 잠금과 자동 저장으로 덮어쓰기 방지</li>
-            <li>별도 웹 앱으로 만들고 AUDPlatform 메뉴 안에서 열리게 연결</li>
-          </ul>
-          <p class="note">수주·주간회의 기능은 기존 엑셀 작업과 이중으로 입력해야 하는 부담 때문에 현업 정착이 늦어졌습니다. 이후 주간회의와 화면을 간소화하고 매뉴얼을 만들었고, 관제와 실적 자동화처럼 반복 업무를 바로 줄이는 기능부터 적용하고 있습니다.</p>
-        </details>
-      </div>
-    </article>
-    <article class="project" id="p-prefs">
-      <div class="p-side">
-        <p class="p-no">P05</p>
-        <p class="p-state dev">개발 중</p>
-        <p class="p-period">2026.08 ~ 현재</p>
-        <ul class="p-stack"><li>FastAPI</li><li>Shapely</li><li>SQLite</li><li>공공 API</li></ul>
-      </div>
-      <div class="p-main">
-        <h3>주소 기반 사업성 사전 검토</h3>
-        <p class="tagline">주소로 필지·조례·계통·일사량·수익성을 함께 보는 예비 검토 도구</p>
-        <p>“주소만 넣으면 사업성을 볼 수 있느냐”는 경영진 질문에서 시작했습니다. 사업개발 담당자에게 실제 검토 순서를 배워, 그 순서대로 필지·규정·계통·일사량·수익성을 확인하게 했습니다.</p>
-        <details>
-          <summary>자세히 보기</summary>
-          <dl class="meta">
-            <dt>역할</dt><dd>요구 정리, 데이터 연동, 백엔드·화면 개발</dd>
-    <dt>기술</dt><dd>Python, FastAPI, Pydantic, httpx, Shapely, pyproj, SQLite, JavaScript</dd>
-          </dl>
-          <ol class="flow"><li>주소 입력</li><li>필지·조례·계통·일사량 조회</li><li>발전량·공사비</li><li>IRR·NPV·DSCR</li></ol>
-          <p>주소 검색 화면만으로는 무엇을 검토하고 어떤 근거를 보여 줘야 할지 정해지지 않았습니다. 사업개발 담당자에게 실제 분석 순서를 배우고 유사 서비스를 비교해 검토 항목을 정했고, 경영지원의 수익성 분석도 넣었습니다.</p>
-          <h3>연결한 정보</h3>
-          <ul>
-            <li>주소·필지(VWorld), 지자체 조례의 이격거리 같은 규정(법제처), 한전 계통 정보, 일사량(PVGIS)</li>
-            <li>조례는 로컬 DB에 저장하고 매일 동기화</li>
-            <li>지붕형은 건물 경계 계산과 건축물대장 대조</li>
-          </ul>
-          <h3>결과 표시</h3>
-          <ul>
-            <li>자료가 없는 항목은 '자료 부족'으로 표시</li>
-            <li>분석 가정과 결과를 함께 저장해 나중에 다시 비교</li>
-            <li>인허가·투자 판단 전에 쓰는 예비 검토용</li>
-          </ul>
-        </details>
-      </div>
-    </article>
-    <article class="project" id="p-waid">
-      <div class="p-side">
-        <p class="p-no">P06</p>
-        <p class="p-state own">개인 프로젝트</p>
-        <p class="p-period">2026.09 ~ · v0.2.0</p>
-        <ul class="p-stack"><li>Rust</li><li>Windows</li><li>GitHub Actions</li></ul>
-      </div>
-      <div class="p-main">
-        <h3>waid — AI 코딩 세션 모니터</h3>
-        <p class="tagline">Claude Code·Codex 세션 상태를 한 창에 보여 주는 Windows 앱</p>
-        <p>코딩 에이전트를 여러 개 띄워 두면 어느 세션이 답을 기다리는지 놓치기 쉽습니다. 로컬 로그만 읽어 세션별 상태를 보여 주는 Windows 앱입니다.</p>
-        <details>
-          <summary>자세히 보기</summary>
-          <dl class="meta">
-            <dt>역할</dt><dd>개인 프로젝트 (기획·개발·배포)</dd>
-    <dt>기술</dt><dd>Rust, Windows 네이티브 UI, GitHub Actions</dd>
-    <dt>링크</dt><dd><a href="https://github.com/laekhole/what-am-i-doing">github.com/laekhole/what-am-i-doing</a></dd>
-          </dl>
-          <figure class="shot"><img src="assets/waid.png" alt="waid 창에 세션 세 개가 상태와 함께 표시된 샘플 화면" width="750" height="975" loading="lazy"></figure>
-          <p>작업마다 Claude Code·Codex 세션을 따로 띄우다 보니, 어느 세션이 끝나서 답을 기다리는지 창을 하나씩 열어 봐야 했습니다. 그래서 세션 상태를 한 창에 모았습니다.</p>
-          <h3>기능</h3>
-          <ul>
-            <li>세션별 프로젝트, 마지막 요청, 에이전트, 모델, 상태(내 차례·작업 중·유휴·오류)를 2초마다 갱신</li>
-            <li>카드를 펼쳐 마지막 요청과 답변, 남은 컨텍스트 확인</li>
-          </ul>
-          <h3>동작 방식과 배포</h3>
-          <ul>
-            <li>로컬 로그만 읽고 밖으로 보내지 않음. 에이전트를 실행하거나 프롬프트를 보내지 않음</li>
-            <li>설치가 필요 없는 단일 EXE, 릴리스마다 SHA-256 체크섬과 Sigstore 서명</li>
-          </ul>
-        </details>
-      </div>
-    </article>
-    <div class="minor-wrap">
-      <h3>그 밖의 작업</h3>
-      <ul class="minor">
-      <li><strong>공고 탐색과 검색 실험</strong> 나라장터 API와 지자체 게시판에서 신재생 사업 공고를 모아 관련도에 따라 분류하고, 자연어 질문을 검색 조건으로 바꾸는 검색을 만들었습니다. 로컬 임베딩 RAG도 실험했습니다. <span class="when-inline">2026.09 ~ 10</span></li>
-      <li><strong>청구서 수신 현황</strong> 전기료·통신비 청구 메일을 발전소별로 기록해, 받았는지와 처리했는지를 업무 화면에서 확인하게 했습니다. <span class="when-inline">2026.08 ~ 10</span></li>
-      </ul>
-    </div>
-</section>
+<article class="project" id="p2" aria-labelledby="p2-t">
+  <p class="tag">Project 02</p>
+  <div class="project-body">
+    <h2 id="p2-t">업무 서버 운영·백업</h2>
+    <dl class="meta">
+      <dt>사업내용</dt><dd>사내 업무 시스템과 수집·자동화 서비스가 함께 도는 Linux 서버 운영, 백업 체계 구축</dd>
+      <dt>기간</dt><dd>2025.09 - 현재</dd>
+      <dt>기술스택</dt><dd>Rocky Linux · Nginx · systemd · crontab · firewalld · PostgreSQL · restic</dd>
+      <dt>현재상태</dt><dd>운영 중 (초기 Linux 세팅은 동료 담당) / 백업 재점검 결과 수정안 정리</dd>
+    </dl>
+    <p class="role-title">주요역할 및 기능</p>
+    <h3>1) 서비스 운영</h3>
+    <ul>
+      <li>업무 시스템 WEB/WAS·PostgreSQL 운영, 외부 연동용 Nginx 리버스 프록시 구성</li>
+      <li>수동 실행하던 백엔드의 systemd 서비스 전환, 재부팅·장애 뒤 자동 재시작</li>
+      <li>스크립트 역할별 이관 시 하드코딩 경로·SELinux 문제 정리, 방화벽 실행·영구 설정 일치 확인</li>
+      <li>디스크 사용률 96%에서 점유 원인 분류 후 오래된 DB 백업 정리로 73%</li>
+    </ul>
+    <h3>2) 백업 구축</h3>
+    <ul>
+      <li>애플리케이션·홈·설정 경로의 restic 암호화 증분 백업 (매일 새벽, 클라우드 저장소)</li>
+      <li>DB 덤프 재다운로드·바이트 단위 비교와 실패 시 메일, 구축 시 새 DB 복원 시험</li>
+    </ul>
+    <h3>3) 백업 재점검</h3>
+    <ul>
+      <li>한 달 반 뒤 스크립트·문서를 실제 로그·저장소·디스크와 대조</li>
+      <li>잠금 충돌 시 로그 없는 정상 종료, 날짜를 보지 않는 상태 검사 발견</li>
+      <li>2027년 3월쯤 Git 미러 백업을 멈추게 할 임시 파일명 누적 버그, 알림 상태·DB 설정 파일의 백업 누락 발견과 수정안 정리</li>
+    </ul>
+  </div>
+</article>
 
-<section class="block" id="approach">
-  <h2><span class="num">02</span>일하는 방식</h2>
-  <ol class="approach">
-      <li><h3>반복 업무 자동화</h3><p>발전소 실적을 매달 메일로 요청하고, 회신 첨부(Excel·PDF·이미지)에서 값을 뽑아 검증한 뒤 DB에 넣는 과정을 자동화했습니다. 담당자가 손으로 하던 일할(날짜 비례) 계산과 입력은 시스템이 하고, 판단이 애매한 건만 담당자 검토로 넘깁니다.</p></li>
-      <li><h3>서버 운영과 모니터링</h3><p>Rocky Linux 서버에서 WEB/WAS, PostgreSQL, 수집 서비스를 운영합니다. 서비스는 systemd로 자동 재시작되게 했고, 직접 만든 백업은 한 달 반 뒤 실제 로그와 대조해 드러나지 않던 결함을 찾았습니다. 관제 알림에 오탐이 나오면 로그로 원인을 찾아 기준을 고칩니다.</p></li>
-      <li><h3>데이터 표준과 정합성</h3><p>공공데이터 공통표준을 참고해 표준 단어·용어·도메인 사전과 명명 규칙을 만들고, 검사 도구로 개발 단계에서 확인했습니다. 화면 입력과 엑셀 업로드가 같은 결과를 내도록 상태 변경과 제약을 DB에 두었습니다.</p></li>
-  </ol>
-  <p class="ai-note">구현에는 Claude Code·Codex를 함께 씁니다. 무엇을 만들지와 반영 여부는 제가 정하고, 배포 전에는 서비스 상태·로그·DB·테스트로 결과를 직접 확인합니다.</p>
-</section>
+<article class="project" id="p3" aria-labelledby="p3-t">
+  <p class="tag">Project 03</p>
+  <div class="project-body">
+    <h2 id="p3-t">사내 ERP·업무시스템</h2>
+    <dl class="meta">
+      <dt>사업내용</dt><dd>ERP 총무 모듈 구축 및 영업·수주·회의 업무시스템 개발</dd>
+      <dt>기간</dt><dd>2024.03 - 2025.09 (ERP SI) / 2025.09 - 현재 (사내 개발)</dd>
+      <dt>기술스택</dt><dd>Java · Spring Boot · DEWS · Oracle · AUDPlatform(상용 BI 플랫폼) · PostgreSQL</dd>
+      <dt>현재상태</dt><dd>사내 기능 개발·운영 / 수주·주간회의 정착 진행 중</dd>
+    </dl>
+    <p class="role-title">주요역할 및 기능</p>
+    <h3>1) 영업·수주 관리</h3>
+    <ul>
+      <li>사업기회·계약·프로젝트 관계 설계, 등록·삭제 시 상태·집계 처리</li>
+      <li>상태 변경과 참조 제약을 DB에 두어 화면 입력·엑셀 업로드 결과 일치</li>
+    </ul>
+    <h3>2) 주간회의·공통 개발 기준</h3>
+    <ul>
+      <li>자동저장·버전·확정본, 구역별 편집 잠금, AUDPlatform 메뉴 연동</li>
+      <li>공공데이터 공통표준 기반 표준 사전·명명 규칙·DDL 생성 도구, 공유 SQL·화면 바인딩 점검</li>
+    </ul>
+    <h3>3) ERP 총무 모듈 구축 (SI)</h3>
+    <ul>
+      <li>구내식당·출입증·연구관리(용역)·배차관리 화면 개발·테스트</li>
+      <li>출입통제 시스템 연동 Oracle 프로시저 인터페이스</li>
+    </ul>
+  </div>
+</article>
 
-<section class="block" id="career">
-  <h2><span class="num">03</span>경력·교육</h2>
-  <div class="two-col">
-    <div>
-      <h3 class="col-title">경력</h3>
-      <div class="entry">
-        <p class="entry-when">2026.07 ~ 현재</p>
-        <div class="entry-body">
-        <h3>에너지 기업 · 경영지원부</h3>
-        <p class="role">선임 · 사내 시스템 개발·운영</p>
-        <p>경영지원 통합시스템과 그 서버를 혼자 개발하고 운영합니다. 이전 회사에서 맡던 이 시스템을 그룹 내 계열사로 전배된 뒤에도 이어서 맡고 있습니다.</p>
-        <ul>
-        <li>업무 시스템(상용 BI 플랫폼 AUDPlatform·PostgreSQL) 개발과 데이터 표준 관리</li>
-        <li>Linux 서버·WEB/WAS 운영, 백업 체계 구축과 재점검</li>
-        <li>발전소 관제, 실적 메일 자동화 운영</li>
-        </ul>
-        </div>
-      </div>
-      <div class="entry">
-        <p class="entry-when">2023.12 ~ 2026.06</p>
-        <div class="entry-body">
-        <h3>IT 서비스 기업 · 사업수행팀</h3>
-        <p class="role">개발자</p>
-        <p>입사 후 차세대 ERP 구축 SI에 투입됐고, 이어서 그룹 에너지 계열사의 경영지원 통합시스템 구축에 참여했습니다. 2026년 3월부터는 이 시스템의 개발을 혼자 맡았습니다. 2024년 4월 회사가 물적분할되면서 신설 법인 소속이 됐습니다.</p>
-        <ul>
-        <li>차세대 ERP 구축 SI: 총무·연구과제 화면 개발·테스트 (Java·Spring Boot·Oracle, 2024.03 ~ 2025.09)</li>
-        <li>경영지원 통합시스템: 업무 화면·SQL·데이터 구조, 외부 연동 (2025.09 ~)</li>
-        <li>업무 시스템과 분리한 관제 수집 서버 구축 (2026.02 ~)</li>
-        </ul>
-        </div>
-      </div>
-    </div>
-    <div>
-      <h3 class="col-title">교육</h3>
-      <div class="entry">
-        <p class="entry-when">2023.05 ~ 2023.12 · 수료</p>
-        <div class="entry-body">
-        <h3>한국소프트웨어산업협회 (KOSA)</h3>
-        <p class="role">자바 클라우드 기반 ERP 개발자 양성과정 · 1,200시간</p>
-        <ul>
-        <li>Java·Oracle·HTML/CSS/JS 웹 개발 기초</li>
-        <li>MVC 패턴, Spring Boot, NCP</li>
-        <li>팀 프로젝트: 봉사활동 커뮤니티</li>
-        </ul>
-        </div>
-      </div>
-      <div class="entry">
-        <p class="entry-when">2022.09 ~ 2022.12 · 수료</p>
-        <div class="entry-body">
-        <h3>한국기계산업진흥회 기술교육원</h3>
-        <p class="role">스마트 공정 데이터 처리 엔지니어링 전문가 양성 (티맥스 CS엔지니어 양성 과정)</p>
-        </div>
-      </div>
-      <div class="entry">
-        <p class="entry-when">2013.03 ~ 2022.02 · 졸업</p>
-        <div class="entry-body">
-        <h3>경희대학교</h3>
-        <p class="role">정보디스플레이학과</p>
-        </div>
-      </div>
-    </div>
+<article class="project" id="p4" aria-labelledby="p4-t">
+  <p class="tag">Project 04</p>
+  <div class="project-body">
+    <h2 id="p4-t">AI 활용 웹사이트 구축</h2>
+    <dl class="meta">
+      <dt>사업내용</dt><dd>회사 홈페이지 내부 제작 제안·기획 및 AI·오픈소스 기반 구현</dd>
+      <dt>기간</dt><dd>2026.08 - 현재 (08.11 최초 제작 / 09.03 화면 개선)</dd>
+      <dt>기술스택</dt><dd>React · TypeScript · vinext/Vite · CSS</dd>
+      <dt>현재상태</dt><dd>내부 검토용 시안 / 문의 전송·데이터 저장은 준비 중</dd>
+    </dl>
+    <p class="role-title">주요역할 및 기능</p>
+    <h3>1) 내부 제작 제안·부서 간 협업</h3>
+    <ul>
+      <li>외주 예정 홈페이지의 내부 제작 제안, AI 도구 사용 비용 지원 협의</li>
+      <li>회사 소개 내용·순서 구성, 담당이 불명확한 업무의 부서 협업·진행 주도</li>
+    </ul>
+    <h3>2) AI·오픈소스를 활용한 화면 제작</h3>
+    <ul>
+      <li>회사소개·사업영역·프로젝트·문의 화면과 한국어·영어 전환 기능 제작</li>
+      <li>사업·에너지원별 프로젝트 유형 보기, 선택한 사업에 맞는 문의 항목 자동 선택</li>
+      <li>PC·모바일에 맞춘 메뉴, 첫 화면 사진 자동 전환·키보드 조작 지원</li>
+    </ul>
+    <h3>3) 관리자 화면 시안 제작·오류 점검</h3>
+    <ul>
+      <li>문의 입력 오류 안내, 게시물 검색·등록·수정·상태 변경 화면 시안 제작</li>
+      <li>관리자 시안은 개발할 때만 열리게 하고, 검토용 사이트의 검색 노출 차단</li>
+      <li>코드 오류와 화면·메뉴 링크가 제대로 표시되는지 자동으로 확인하도록 구성</li>
+    </ul>
+  </div>
+</article>
+
+<article class="project" id="p5" aria-labelledby="p5-t">
+  <p class="tag">Project 05</p>
+  <div class="project-body">
+    <h2 id="p5-t">주소 기반 사업성 사전 검토</h2>
+    <dl class="meta">
+      <dt>사업내용</dt><dd>주소로 필지·조례·계통·일사량·수익성을 함께 보는 예비 사업성 검토 도구</dd>
+      <dt>기간</dt><dd>2026.08 - 현재</dd>
+      <dt>기술스택</dt><dd>Python · FastAPI · Pydantic · Shapely · pyproj · SQLite · JavaScript</dd>
+      <dt>현재상태</dt><dd>개발 중 / 인허가·투자 판단 전 단계의 예비 검토용</dd>
+    </dl>
+    <p class="role-title">주요역할 및 기능</p>
+    <h3>1) 요구 구체화</h3>
+    <ul>
+      <li>“주소만 넣으면 사업성을 볼 수 있느냐”는 경영진 질문에서 출발</li>
+      <li>사업개발 담당자에게 실제 분석 순서를 배우고 유사 서비스 비교로 검토 항목 확정, 경영지원의 수익성 분석 반영</li>
+    </ul>
+    <h3>2) 데이터 연동·계산</h3>
+    <ul>
+      <li>VWorld 필지, 법제처 조례(이격거리 등), 한전 계통 정보, PVGIS 일사량 연동</li>
+      <li>조례 로컬 저장·매일 동기화, 지붕형 건물 경계 계산·건축물대장 대조</li>
+      <li>발전량·공사비와 IRR·NPV·DSCR 계산</li>
+    </ul>
+    <h3>3) 결과 표시</h3>
+    <ul>
+      <li>자료가 없는 항목의 ‘자료 부족’ 표시, 분석 가정·결과 저장 후 재비교</li>
+    </ul>
+  </div>
+</article>
+
+<article class="project" id="p6" aria-labelledby="p6-t">
+  <div class="tag">
+    <p>Project 06</p>
+    <img class="logo" src="assets/waid-logo.png" alt="waid 로고" width="120" height="120">
+    <p class="tag-kind">개인 프로젝트</p>
+  </div>
+  <div class="project-body">
+    <h2 id="p6-t">WAID · AI 세션 관리 도구</h2>
+    <dl class="meta">
+      <dt>사업내용</dt><dd>여러 코딩 에이전트의 작업 상태를 모아 보는 개인 데스크톱 앱</dd>
+      <dt>기간</dt><dd>2026.09 - 현재 (저장소 기록 기준)</dd>
+      <dt>기술스택</dt><dd>Rust · Win32 · JSONL/SQLite · GitHub Actions</dd>
+      <dt>현재상태</dt><dd>Windows v0.2.0 공개 배포 / 후속 기능 개발·유지관리</dd>
+    </dl>
+    <p class="role-title">주요역할 및 기능</p>
+    <h3>1) 에이전트 세션 통합</h3>
+    <ul>
+      <li>Claude Code·Codex 로그 수집, 프로젝트·요청·모델·상태·마지막 답변 표시</li>
+      <li>검색·고정·숨김, 원본 로그 읽기 전용 처리와 사용자 설정 분리</li>
+    </ul>
+    <h3>2) 상태 판정·세션 복귀</h3>
+    <ul>
+      <li>새 활동 미관측 세션의 미확인 처리, 과거 기록과 현재 상태 구분</li>
+      <li>Orca 연결 확인 후 배지 표시·세션 복귀, 모호한 대상의 이동 차단 (v0.2.0 이후 소스)</li>
+    </ul>
+    <h3>3) 빌드·공개 배포</h3>
+    <ul>
+      <li>GitHub Actions 검사·빌드·단일 EXE 패키징, SHA-256·Sigstore 검증 파일 제공</li>
+    </ul>
+    <p class="links">
+      <a href="https://github.com/laekhole/what-am-i-doing">GitHub ↗</a>
+      <a href="https://github.com/laekhole/what-am-i-doing/releases/tag/v0.2.0">Windows v0.2.0 ↗</a>
+      <a href="https://github.com/laekhole/what-am-i-doing/blob/9ae471620f5d2d6d47c5466862f01d384a621456/VALIDATION.md">검증 기록 ↗</a>
+    </p>
+  </div>
+  <figure class="screen">
+    <img src="assets/waid.png" alt="waid 창에 세션 세 개가 상태와 함께 표시된 화면" width="750" height="975">
+    <figcaption>v0.2.0 화면 · 저장소에 공개한 샘플 데이터</figcaption>
+  </figure>
+</article>
+
+<section class="project" id="certs" aria-labelledby="certs-t">
+  <p class="tag">Certificates</p>
+  <div class="project-body">
+    <h2 id="certs-t">자격증</h2>
+    <dl class="rows">
+      <dt>2026.06</dt><dd><strong>회계관리 2급</strong><span>삼일회계법인</span></dd>
+      <dt>2025.06</dt><dd><strong>정보처리기사</strong><span>한국산업인력공단</span></dd>
+      <dt>2024.02</dt><dd><strong>ERP정보관리사 인사 2급</strong><span>한국생산성본부</span></dd>
+      <dt>2023.10</dt><dd><strong>SQLD</strong><span>한국데이터산업진흥원</span></dd>
+      <dt>2023.10</dt><dd><strong>COSPRO 2급 Java</strong><span>YBM</span></dd>
+    </dl>
   </div>
 </section>
 
-<section class="block" id="skills">
-  <h2><span class="num">04</span>기술</h2>
-  <dl class="skills">
-      <dt>언어</dt><dd>Python · Java · JavaScript · Rust · SQL</dd>
-      <dt>프레임워크·라이브러리</dt><dd>FastAPI · Spring Boot · AUDPlatform · pandas · SQLAlchemy · Selenium</dd>
-      <dt>데이터베이스</dt><dd>PostgreSQL · Oracle · SQLite</dd>
-      <dt>인프라·운영</dt><dd>Rocky Linux · Nginx · systemd · crontab · restic · Git</dd>
-      <dt>AI 도구</dt><dd>Claude Code · Codex</dd>
-  </dl>
-</section>
-
-<section class="block" id="certs">
-  <h2><span class="num">05</span>자격증</h2>
-  <ul class="certs">
-      <li><span class="c-date">2026.06</span><span class="c-name">회계관리 2급</span><span class="c-org">삼일회계법인</span></li>
-      <li><span class="c-date">2025.06</span><span class="c-name">정보처리기사</span><span class="c-org">한국산업인력공단</span></li>
-      <li><span class="c-date">2024.02</span><span class="c-name">ERP정보관리사 인사 2급</span><span class="c-org">한국생산성본부</span></li>
-      <li><span class="c-date">2023.10</span><span class="c-name">SQLD</span><span class="c-org">한국데이터산업진흥원</span></li>
-      <li><span class="c-date">2023.10</span><span class="c-name">COSPRO 2급 (Java)</span><span class="c-org">YBM</span></li>
-  </ul>
+<section class="project" id="edu" aria-labelledby="edu-t">
+  <p class="tag">Education</p>
+  <div class="project-body">
+    <h2 id="edu-t">교육</h2>
+    <dl class="rows">
+      <dt>2023.05 - 2023.12</dt>
+      <dd><strong>한국소프트웨어산업협회(KOSA) · 수료</strong><span>자바 클라우드 기반 ERP 개발자 양성과정 (1,200시간)</span>
+        <ul>
+          <li>Java·Oracle·HTML/CSS/JS 웹 개발 기초</li>
+          <li>MVC 패턴·Spring Boot·NCP</li>
+          <li>팀 프로젝트: 봉사활동 커뮤니티</li>
+        </ul>
+      </dd>
+      <dt>2022.09 - 2022.12</dt>
+      <dd><strong>한국기계산업진흥회 기술교육원 · 수료</strong><span>스마트 공정 데이터 처리 엔지니어링 전문가 양성 (티맥스 CS엔지니어 양성 과정)</span></dd>
+      <dt>2013.03 - 2022.02</dt>
+      <dd><strong>경희대학교 · 졸업</strong><span>정보디스플레이학과</span></dd>
+    </dl>
+  </div>
 </section>
 
 </main>
 
-<footer class="foot">
-  <span>김민기</span>
+<footer class="sheet-foot">
+  <span>김민기 · Kim Mingi</span>
   <a href="https://github.com/laekhole">github.com/laekhole</a>
-  <span>2026.10 업데이트</span>
 </footer>
+</div>
 </body>
 </html>
