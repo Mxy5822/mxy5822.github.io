@@ -124,6 +124,8 @@ img { max-width: 100%; height: auto; display: block; }
 .mini span { display: inline-flex; align-items: center; gap: 5px; }
 .mini img { width: 18px; height: 18px; }
 .mini .txt { min-width: 18px; height: 18px; font-size: 9px; }
+dd > .mini + .mini { margin-top: 4px; }
+.for { flex-basis: 100%; color: var(--muted); font-size: 12.5px; font-style: normal; font-weight: 700; line-height: 1.4; }
 .role-title { margin: 20px 0 10px; color: var(--muted); font-size: 14px; }
 .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .roles section { padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; }
